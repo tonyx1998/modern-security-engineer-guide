@@ -1,5 +1,7 @@
 # Modern Security Engineer Guide
 
+[![Deploy to GitHub Pages](https://github.com/tonyx1998/modern-security-engineer-guide/actions/workflows/deploy.yml/badge.svg)](https://github.com/tonyx1998/modern-security-engineer-guide/actions/workflows/deploy.yml)
+
 A comprehensive, first-principles 2026 guide to how security is actually done — offensive *and* defensive. **14 chapters in 7 parts**, written so a complete beginner can read it front to back and finish job-ready, while still being a useful reference for working engineers. It teaches the attacker's mindset and the defender's craft from the ground up, and ends where you can *do the job*. *Last reviewed: June 2026.*
 
 > **Live site:** https://tonyx1998.github.io/modern-security-engineer-guide/ *(deploy with `npm run deploy` / GitHub Pages)*
