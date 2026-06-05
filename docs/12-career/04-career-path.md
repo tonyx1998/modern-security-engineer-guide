@@ -35,6 +35,10 @@ The reason pivoting is so common: **you can't secure what you don't understand.*
 - **Continuous learning** — the ongoing study the field demands as threats and tech evolve; non-optional in security.
 :::
 
+:::tip[Rehearse the interview out loud]
+Knowing the path is one thing; getting through the *interview* is another. The next page — [Mock interviews (SoloMock)](./mock-interviews) — maps each security round (spot-the-vuln code review, STRIDE threat modeling, incident-response behavioral) to a specific verbal mock you can practice solo.
+:::
+
 ## Growth: specialize, then cross lanes
 
 Once in, the typical arc:
