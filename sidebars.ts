@@ -210,6 +210,7 @@ const sidebars: SidebarsConfig = {
         'career/certifications',
         'career/portfolio',
         'career/career-path',
+        'career/mock-interviews',
         'career/career-checkpoint',
       ],
     },
