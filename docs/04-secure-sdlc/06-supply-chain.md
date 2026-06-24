@@ -37,12 +37,24 @@ A direct attack compromises one target. A supply-chain attack compromises **one 
 | Attack | How it works | Real-world echo |
 |--------|--------------|-----------------|
 | **Compromised popular package** | Attacker gains publish rights (stolen maintainer creds, social engineering) and ships malware in an update | Several `npm`/`PyPI` package takeovers |
+| **Malicious maintainer (long-game trust)** | An attacker spends months earning maintainer trust, becomes a co-maintainer, then commits an obfuscated, build-time backdoor — the *source review can't catch it* because the payload hides in build artifacts/test data | XZ Utils backdoor |
 | **Typosquatting** | Publish `expresss`/`reqeusts` hoping for a typo'd install | Ongoing on every package registry |
 | **Dependency confusion** | Publish a public package with the same name as a company's *internal* one; the build grabs the higher-versioned public (malicious) one | Widely demonstrated against major companies |
 | **Build-system compromise** | Attacker breaches the CI/CD or build server and injects malware into the artifact *during the build* — the source looks clean | SolarWinds |
 | **Known-vulnerable dependency** | Not an injected attack, but a public CVE in a dependency exploited at scale | Log4Shell |
 
 Notice the build-system case (SolarWinds-style) is especially insidious: the *source code is clean*, so source review and SAST see nothing — the malware is inserted *during compilation*. Defending it requires securing the *build process itself*, which is exactly what SLSA addresses.
+
+:::note[Named case: the XZ Utils backdoor (a maintainer-trust attack source review can't catch)]
+The most chilling demonstration of the **malicious-maintainer** shape was the **XZ Utils backdoor** (tracked as CVE-2024-3094, disclosed in 2024). XZ Utils is a tiny, ubiquitous compression library that almost every Linux system pulls in. Over roughly *two years*, an attacker operating under a persona ("Jia Tan") patiently built a reputation, became a co-maintainer of the project, and then slipped in a backdoor — one that, on affected distributions, hooked into `sshd` and could have given remote access to a staggering fraction of the internet's servers.
+
+Why it's the canonical example for this lesson:
+- **Source review wouldn't catch it.** The malicious payload wasn't readable malicious source — it was an obfuscated blob hidden in *test data* and stitched into the artifact by the *build scripts*. Someone reading the committed code would see nothing wrong.
+- **The trust was the vector.** The attacker didn't break in; they were *granted* commit rights through patient social engineering. The defense isn't a scanner — it's recognizing that *who you trust to write your dependencies* is itself attack surface.
+- **It was caught by luck, not by a control.** A single engineer investigated a ~half-second SSH login slowdown and unraveled it before it shipped widely. The sobering lesson: prevention here is hard, so **reducing dependency count, preferring well-staffed projects, and assume-breach detection** all matter — you cannot review your way to safety against a trusted insider.
+
+Treat the *story* as a durable illustration of maintainer-trust risk; the CVE number and dates are [dated specifics](/docs/foundations/threat-vuln-risk).
+:::
 
 ## The modern defenses
 
@@ -73,6 +85,7 @@ Beyond the frameworks, the day-to-day basics prevent most incidents:
 - **Vet new dependencies** before adopting — popularity, maintenance, maintainer count; fewer dependencies is fewer risks.
 - **Defend dependency confusion** — explicitly scope/namespace internal packages and configure registries so internal names can't be hijacked by public ones.
 - **Protect maintainer & CI credentials** with MFA and [least privilege](/docs/foundations/defense-in-depth) — most package takeovers start with a stolen publish token.
+- **Pin CI actions to a full commit SHA, not a mutable tag.** A reference like `uses: some/action@v4` points at a *tag the upstream controls* — if that tag is repointed to malicious code, it flows straight into your build. Pinning to a full commit hash (`uses: some/action@<40-char-sha>`) freezes exactly what runs. **Treat the CI runner as a credential-theft surface:** it holds your deploy keys and tokens, so a compromised action can dump them out of your build logs. (A 2025 compromise of the popular `tj-actions/changed-files` action — CVE-2025-30066 — did exactly this across tens of thousands of repos by repointing version tags; a dated illustration of why SHA-pinning matters.)
 - **Generate SBOMs and sign artifacts** in your pipeline, and *verify* signatures/provenance before you deploy or pull.
 
 :::info[Highlight: it's "trust your inputs" at industrial scale]
@@ -94,6 +107,8 @@ Every defense here is the [trust-boundary](/docs/foundations/trust-boundaries) p
 - **Ignoring the build system.** Source review and SAST miss build-time injection (SolarWinds-style). Harden the pipeline (SLSA), isolate builds, and verify provenance.
 - **Weak maintainer/CI credential hygiene.** Most takeovers begin with a stolen publish token or CI secret. Enforce MFA and least privilege on these.
 - **No SBOM when the next Log4Shell hits.** Without an inventory, "are we affected?" becomes a frantic manual hunt. Generate and store SBOMs now, before you need them.
+- **Trusting a maintainer because the code looks clean.** A long-game malicious maintainer (XZ Utils) can hide a build-time backdoor source review won't see. Prefer well-staffed dependencies, minimize their number, and lean on detection — you can't review your way past a trusted insider.
+- **Referencing CI actions by mutable tag.** `action@v4` lets upstream repoint the tag to malicious code that steals your CI secrets. Pin to a full commit SHA and treat the runner as a credential-theft surface.
 :::
 
 ## Page checkpoint
@@ -150,6 +165,32 @@ Every defense here is the [trust-boundary](/docs/foundations/trust-boundaries) p
   correct={1}
   explanation="Signing proves authenticity and integrity (Chapter 2 signatures); provenance attests how and from what it was built. Consumers verify before deploying, so a tampered or swapped artifact fails verification. Sigstore/cosign made this practical and keyless."
   revisit={{ to: "/docs/secure-sdlc/supply-chain#the-modern-defenses", label: "Signing & provenance" }}
+/>
+
+<Question
+  prompt="The XZ Utils backdoor was inserted by someone who spent ~2 years becoming a trusted co-maintainer, then hid an obfuscated build-time payload. Why is this hard to defend, and what's the durable lesson?"
+  options={[
+    { text: "It was a simple known CVE; just patch it" },
+    { text: "Source review can't catch it (the payload hid in test data / build scripts, not readable source) and the trust itself was the vector — so the defense isn't a scanner but recognizing that WHO you trust to write dependencies is attack surface: minimize dependencies, prefer well-staffed projects, and rely on assume-breach detection" },
+    { text: "Pinning versions fully prevents a malicious maintainer" },
+    { text: "It only affected Windows build servers" }
+  ]}
+  correct={1}
+  explanation="A trusted insider granted commit rights, hiding the payload in build artifacts/test data, defeats source review and SAST. You can't review your way past a trusted maintainer, so the leverage is reducing dependency count, favoring well-maintained projects, and detection — recognizing maintainer trust as attack surface."
+  revisit={{ to: "/docs/secure-sdlc/supply-chain#the-shapes-of-supply-chain-attacks", label: "Malicious maintainer" }}
+/>
+
+<Question
+  prompt="Why pin a CI action to a full commit SHA (`uses: some/action@<sha>`) instead of a tag (`@v4`)?"
+  options={[
+    { text: "SHAs make the build faster" },
+    { text: "A tag is controlled by the upstream and can be repointed to malicious code that flows into your build and dumps your CI secrets from the logs; a full commit SHA freezes exactly what runs — and you should treat the CI runner as a credential-theft surface since it holds deploy keys and tokens" },
+    { text: "Tags are encrypted but SHAs are not" },
+    { text: "There's no security difference; it's just style" }
+  ]}
+  correct={1}
+  explanation="A mutable tag lets the upstream (or an attacker who compromises it) silently change what your pipeline executes — exactly the tj-actions/changed-files compromise, which leaked secrets across many repos. Pinning to a full commit hash freezes the code, and treating the runner as a credential-theft surface limits the damage if something does slip in."
+  revisit={{ to: "/docs/secure-sdlc/supply-chain#practical-hygiene-what-to-actually-do", label: "CI SHA-pinning" }}
 />
 
 <Question

@@ -73,6 +73,31 @@ Given all that, why care about compliance at all? Because it does real work:
 
 So the goal isn't to dismiss compliance — it's to *operationalize* it well (the rest of this chapter) while never confusing it with the real objective: an organization that's genuinely hard to breach.
 
+## The regulatory wave: from voluntary to mandatory
+
+For most of security's history, the frameworks above were largely *voluntary or contractual* — you adopted SOC 2 to win deals, PCI-DSS because card networks required it. The durable shift to understand is that, recently, **governments moved security from "good practice you choose" toward "legal obligation you must meet"** — adding two things the older frameworks mostly lacked: **mandatory breach *disclosure*** (you must *tell* regulators/investors when you're breached, on a clock) and **vendor *liability*** (the maker of insecure software, not just the victim, bears responsibility).
+
+The durable takeaway — independent of any specific law:
+
+- **Disclosure became mandatory and time-bound.** "Quietly handle the breach internally" is increasingly illegal; regulators now require *timely* notification, which changes [incident response](/docs/incident-forensics) — your IR plan now has a *legal clock* and a regulator audience, not just a technical one.
+- **Liability is shifting upstream to vendors.** Regulation increasingly says the *producer* of software must build it securely and handle vulnerabilities (including shipping an [SBOM](/docs/secure-sdlc/supply-chain)), rather than leaving all risk with the customer who deployed it. "Secure by design" became a stated expectation.
+- **The map fragmented by jurisdiction.** Where you operate, and where your *users* live, now determines which mandatory regimes apply — so compliance is increasingly a *geographic* question, not just an industry one.
+
+This doesn't change the chapter's thesis — **compliance is still a floor, not security** — but it raises the *legal stakes* of clearing that floor, and it pulls security engineering directly into [incident-response timelines](/docs/incident-forensics/breach-determination) and [supply-chain](/docs/secure-sdlc/supply-chain) obligations.
+
+:::note[Dated box: the specific regimes driving this (verify current)]
+The *pattern* above is durable; these specific laws and dates are a **dated snapshot** — confirm current status, scope, and deadlines before relying on them.
+
+- **SEC cybersecurity disclosure (US):** public companies must disclose a *material* cyber incident on Form 8-K (Item 1.05) within **4 business days of determining materiality** (in force since late 2023). The clock starts at the *materiality determination*, not the incident.
+- **NIS2 (EU):** broadly expanded security + incident-reporting obligations across "essential" and "important" entities (transposition deadline 2024).
+- **DORA (EU):** ICT risk-management and incident-reporting rules for the financial sector (applies from early 2025).
+- **EU AI Act:** risk-based regulation of AI systems, applying in phases (prohibited practices first, high-risk obligations later).
+- **EU Cyber Resilience Act (CRA):** security requirements for products with digital elements — notably a **mandatory machine-readable SBOM** and coordinated vulnerability handling (phased obligations through ~2027). This is the clearest example of liability moving to the *producer*.
+- **CISA Secure by Design (US):** a *voluntary* pledge pushing vendors to ship products secure-by-default and own customer security outcomes — the persuasion side of the same shift.
+
+(Strictly, broad civil *liability* for defective software is being extended by the EU's revised Product Liability Directive, alongside the CRA's product-security duties.)
+:::
+
 ## Why it matters
 
 - **It's a map of the governance landscape.** Knowing which framework applies where — cards → PCI, EU privacy → GDPR, SaaS trust → SOC 2 — orients you in any security-program conversation.
@@ -88,6 +113,7 @@ So the goal isn't to dismiss compliance — it's to *operationalize* it well (th
 - **Ignoring scope.** Compliance covers a defined scope (e.g., only cardholder-data systems for PCI). Misjudging scope means either gaps or wasted effort.
 - **Dismissing compliance as pure paperwork.** It's a business gate and forces real baseline hygiene. Underrating it loses deals and skips fundamentals.
 - **Confusing privacy with security.** GDPR is a privacy law (data rights), overlapping but not identical to security controls. Treat privacy obligations distinctly.
+- **Missing the shift to mandatory disclosure and vendor liability.** Newer regimes (SEC 8-K, NIS2/DORA, EU CRA) make *timely breach disclosure* a legal duty and push *security obligations onto software producers* (incl. SBOMs). Your IR plan now has a legal clock; "handle it quietly" is increasingly illegal.
 :::
 
 ## Page checkpoint
@@ -144,6 +170,19 @@ So the goal isn't to dismiss compliance — it's to *operationalize* it well (th
   correct={1}
   explanation="Compliance is frequently a prerequisite to doing business, forces the boring fundamentals that prevent most breaches, gives a program structure and accountability, and codifies legal duties. The goal is to operationalize it well while never confusing it with real security."
   revisit={{ to: "/docs/compliance/frameworks#why-frameworks-still-matter-a-lot", label: "Why frameworks matter" }}
+/>
+
+<Question
+  prompt="What is the durable 'regulatory wave' shift in security regulation, and how does it affect a security engineer?"
+  options={[
+    { text: "Regulation was abolished in favor of voluntary frameworks" },
+    { text: "Security moved from largely voluntary/contractual frameworks toward mandatory, time-bound breach DISCLOSURE (e.g., SEC 8-K's 4-business-day clock) and vendor LIABILITY (producers must build securely and ship SBOMs, e.g., the EU CRA) — so your incident-response plan now has a legal clock and a regulator audience, and software-producer obligations grew" },
+    { text: "It only affects companies with no security program" },
+    { text: "It means compliance now equals security" }
+  ]}
+  correct={1}
+  explanation="The durable pattern: governments added mandatory, timely breach disclosure and pushed security obligations/liability onto software producers (including SBOM mandates), fragmented by jurisdiction. It doesn't change 'compliance is a floor, not security' — but it raises the legal stakes and pulls security engineering into IR timelines and supply-chain duties. The specific laws/dates are dated facts to verify."
+  revisit={{ to: "/docs/compliance/frameworks#the-regulatory-wave-from-voluntary-to-mandatory", label: "The regulatory wave" }}
 />
 
 <Question

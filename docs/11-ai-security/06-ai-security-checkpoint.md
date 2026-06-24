@@ -18,7 +18,8 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
 
 - **Explain [prompt injection](./prompt-injection)** — why it's injection, direct vs. indirect, and why it can't be prompted away.
 - **Navigate the [OWASP LLM Top 10](./llm-top-10)** — most risks are classic security around a new component; a few are genuinely novel.
-- **Contain [excessive agency](./excessive-agency)** — least privilege for tools, and human-in-the-loop for high-impact actions.
+- **Contain [excessive agency](./excessive-agency)** — least privilege for tools, the lethal trifecta, and human-in-the-loop for high-impact actions.
+- **Secure the [tool layer (MCP)](./mcp-security)** — treat tool servers and their descriptions as untrusted (tool poisoning, line-jumping, token pass-through, over-broad scopes).
 - **Red-team [AI systems](./ai-red-teaming)** — handling non-determinism and the infinite input space, testing the whole system.
 - **Apply the [cardinal rule](./cardinal-rule)** — the model proposes, deterministic code with real authorization disposes.
 
@@ -131,6 +132,19 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
 />
 
 <Question
+  prompt="A third-party MCP server hides an instruction inside a tool's description telling the model to read and exfiltrate secrets. What is this, and why doesn't 'approve each tool call' fully protect you?"
+  options={[
+    { text: "A network bug; patch the server" },
+    { text: "Tool poisoning — injection via tool metadata the model reads; and a server's descriptions enter the model's context the moment it connects (line-jumping), so a malicious description can act BEFORE any tool call exists to approve — treat the tool layer as untrusted and gate actions in deterministic code" },
+    { text: "Harmless; tool descriptions are trusted" },
+    { text: "Prompt injection that a bigger model prevents" }
+  ]}
+  correct={1}
+  explanation="Hidden instructions in a tool description are tool poisoning (indirect injection via metadata). Because listing a server's tools loads its description text at connect time, line-jumping lets it influence the model before the first approvable call. The fix is the chapter's: the tool layer is untrusted; constrain scope and gate real actions deterministically."
+  revisit={{ to: "/docs/ai-security/mcp-security#the-threat-model-the-tool-layer-is-untrusted", label: "MCP threats" }}
+/>
+
+<Question
   prompt="A jailbreak succeeds ~30% of the time. How should AI red-teaming treat it?"
   options={[
     { text: "As 'mostly safe'" },
@@ -186,6 +200,6 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
 
 ## Chapter 11 complete
 
-You can now reason about AI security with the right frame: [prompt injection](./prompt-injection) is unpreventable injection, most of the [LLM Top 10](./llm-top-10) is familiar security around a manipulable component, [excessive agency](./excessive-agency) is what makes it catastrophic, [red-teaming](./ai-red-teaming) finds breaks but can't certify safety, and the [cardinal rule](./cardinal-rule) ties it together — **an LLM is intelligence, not authorization; build security in deterministic code around it.** Your ten chapters of security knowledge transfer directly; the model is just a new, untrusted node.
+You can now reason about AI security with the right frame: [prompt injection](./prompt-injection) is unpreventable injection, most of the [LLM Top 10](./llm-top-10) is familiar security around a manipulable component, [excessive agency](./excessive-agency) is what makes it catastrophic, the [tool layer (MCP)](./mcp-security) is untrusted too, [red-teaming](./ai-red-teaming) finds breaks but can't certify safety, and the [cardinal rule](./cardinal-rule) ties it together — **an LLM is intelligence, not authorization; build security in deterministic code around it.** Your ten chapters of security knowledge transfer directly; the model is just a new, untrusted node.
 
 → On to [Chapter 12: Security Career](/docs/career) — turning everything you've learned into a profession: the roles, certifications, portfolio, and multi-year path of a security engineer.

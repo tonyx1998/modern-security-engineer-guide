@@ -65,6 +65,22 @@ The three levers, from the example:
 The architectural pattern that makes AI agents safe: **the model decides *what to do*; trusted, deterministic code with real [authorization](/docs/appsec/broken-access-control) decides *whether to allow it*.** The model's tool *request* isn't a tool *execution* — it passes through a control layer that enforces permissions, allowlists, and approval *independently of the model*. So even a fully [injected](./prompt-injection) model can only ever *ask*; the deterministic gate (which can't be prompt-injected) is what actually permits or denies. This separation — model proposes, code with authz disposes — is the concrete form of the [cardinal rule](./cardinal-rule) and the single most important design idea for safe AI agents.
 :::
 
+## The lethal trifecta: a quick threat-model lens
+
+Before the pitfalls, a sharp diagnostic for *when* an agent is dangerous. An agent is set up for **data exfiltration** precisely when it combines **three** capabilities at once — the "lethal trifecta":
+
+```
+   private data   +   untrusted content   +   external communication   =   exfiltration risk
+  (something worth      (an injection can         (a way to send data
+   stealing in reach)    arrive)                   out to the attacker)
+```
+
+- **Access to private data** — the agent can reach something worth stealing (your files, a database, another user's records).
+- **Exposure to untrusted content** — the agent reads things an attacker can influence (web pages, emails, documents) — i.e., it can be [indirectly injected](./prompt-injection).
+- **Ability to communicate externally** — the agent has a tool that can send data *out* (post a request, send an email, hit an arbitrary URL).
+
+The insight: any *one or two* of these is usually fine; it's the **combination of all three** that lets an injection turn into "private data flows to the attacker." So when you scope an agent's [capability and permission](#least-privilege-for-ai-agents), look for the trifecta — and break it by **removing one leg** (e.g., no external-send tool, or no untrusted-content ingestion, or no private-data reach) whenever you can. It's a fast way to spot the *excessive agency* that matters most.
+
 ## Why it matters
 
 - **It's what makes AI vulnerabilities catastrophic.** A talking model that's injected is embarrassing; an *acting* model that's injected drains accounts, exfiltrates data, and deletes systems. Agency is the multiplier between annoyance and disaster.
@@ -80,6 +96,7 @@ The architectural pattern that makes AI agents safe: **the model decides *what t
 - **Treating a tool request as a tool execution.** If the model's request runs directly, the model *is* the authorization. Put a deterministic, authz-enforcing gate between request and execution.
 - **Giving the agent the user's full permissions.** An agent acting with broad user authority inherits all of it on compromise. Scope the agent's own permissions to its task, not the user's whole access.
 - **Forgetting the model is the confused deputy.** It's a trusted component that can be tricked into misusing its access (like SSRF). Design assuming it will be manipulated.
+- **Missing the lethal trifecta.** An agent with private-data access *and* untrusted-content exposure *and* external-communication ability is set up for exfiltration. Check for all three together, and break one leg where you can.
 :::
 
 ## Page checkpoint
@@ -139,6 +156,19 @@ The architectural pattern that makes AI agents safe: **the model decides *what t
 />
 
 <Question
+  prompt="What is the 'lethal trifecta' that sets an AI agent up for data exfiltration?"
+  options={[
+    { text: "High temperature, large context, and many tools" },
+    { text: "Access to private data + exposure to untrusted content + the ability to communicate externally — any one or two is usually fine, but all three together let an injection turn into private data flowing to the attacker, so you break the risk by removing one leg" },
+    { text: "A slow model, a big prompt, and no monitoring" },
+    { text: "Using RSA, ECC, and AES at once" }
+  ]}
+  correct={1}
+  explanation="The lethal trifecta is private-data access, untrusted-content exposure (so injection can arrive), and external-communication ability (so data can leave). The combination is what enables exfiltration; removing any single leg — e.g., no external-send tool — breaks the chain. It's a fast lens for spotting dangerous excessive agency."
+  revisit={{ to: "/docs/ai-security/excessive-agency#the-lethal-trifecta-a-quick-threat-model-lens", label: "The lethal trifecta" }}
+/>
+
+<Question
   prompt="Why is a tool-using LLM described as a 'confused deputy'?"
   options={[
     { text: "Because it's a law-enforcement tool" },
@@ -155,6 +185,6 @@ The architectural pattern that makes AI agents safe: **the model decides *what t
 
 ## What's next
 
-→ Continue to [AI Red-Teaming](./ai-red-teaming) — adversarially testing AI systems for these weaknesses, the AI-specific arm of the [offensive security](/docs/offensive) you already learned.
+→ Continue to [Securing the Tool Layer: MCP](./mcp-security) — the standardized way agents get their tools, and why those tool servers (and the descriptions they hand the model) are untrusted too.
 
 → **Going deeper:** the injection that drives this is [prompt injection](./prompt-injection); the least-privilege root is [Foundations](/docs/foundations/defense-in-depth); the confused-deputy parallel is [SSRF](/docs/appsec/ssrf); the unifying principle is the [cardinal rule](./cardinal-rule).
