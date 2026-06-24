@@ -17,14 +17,17 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
 ## What you should be able to do now
 
 - **Harden [IAM](./iam-hardening)** — least privilege and temporary credentials, because identity is the perimeter.
+- **Govern [non-human identity](./nhi-workload-identity)** — short-lived, attested workload identity (SPIFFE/SPIRE, federation) over static, sprawling machine secrets.
 - **Run [CSPM](./cspm)** — find misconfigurations across the estate, knowing config is your job under shared responsibility.
+- **Apply [runtime security](./cloud-runtime-security)** — eBPF behavioral detection against living-off-the-land, and CNAPP consolidation.
+- **Secure [Kubernetes](./kubernetes-security)** — admission control, signed images, secrets, and network policies for the platform itself.
 - **Build [zero-trust architecture](./zero-trust-architecture)** — signal-based decisions and mTLS/workload identity for service-to-service.
 - **Govern [SSO & federation](./sso-federation)** — centralized identity, and the deprovisioning/reviews everyone forgets.
 - **Manage [keys & secrets at scale](./kms-secrets-at-scale)** — KMS, dynamic secrets, and authorized, audited access.
 
 ## The checkpoint
 
-<Quiz id="cloud-identity-checkpoint" title="Chapter 9: Cloud & Identity Security" sampleSize={6} passingScore={0.67}>
+<Quiz id="cloud-identity-checkpoint" title="Chapter 9: Cloud & Identity Security" sampleSize={8} passingScore={0.67}>
 
 <Question
   prompt="Why is 'identity is the perimeter' literally true in the cloud?"
@@ -180,6 +183,123 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
   correct={1}
   explanation="Without auditing you can't tell if a key was misused or scope the impact, so you assume the worst. Logged access lets you confirm normal use or identify the compromise precisely — turning a guessing game into a scoped investigation."
   revisit={{ to: "/docs/cloud-identity/kms-secrets-at-scale#from-static-to-dynamic-secrets", label: "Auditability" }}
+/>
+
+<Question
+  prompt="Why are non-human (machine) identities a bigger credential-leak problem than human ones?"
+  options={[
+    { text: "Machines choose weaker passwords" },
+    { text: "They vastly outnumber people and tend to authenticate with STATIC long-lived secrets that rarely expire, sprawl across repos/config/CI, and have no owner — the dominant leaked-credential vector at scale" },
+    { text: "Machines can't use IAM at all" },
+    { text: "Human identities are never leaked" }
+  ]}
+  correct={1}
+  explanation="There are far more services, jobs, and scripts than employees, and each authenticates — usually via a static key that lives for years, sprawls across many places, and is owned by no one. It's the long-lived-leaked-key problem from IAM hardening, multiplied across machines."
+  revisit={{ to: "/docs/cloud-identity/nhi-workload-identity#machines-outnumber-people--and-they-hold-the-worst-secrets", label: "Machines outnumber people" }}
+/>
+
+<Question
+  prompt="What's the core idea of SPIFFE/SPIRE, and why does it remove the leaked-secret problem?"
+  options={[
+    { text: "It encrypts the static API key so it can't be read" },
+    { text: "It gives each workload a verifiable identity and issues a SHORT-LIVED, auto-rotated SVID after ATTESTING what the workload actually is (node/container/service account) — so identity comes from being what it claims, and there's no static secret to leak in the first place" },
+    { text: "It stores all service passwords in one shared file" },
+    { text: "It makes service keys last longer so they're rotated less" }
+  ]}
+  correct={1}
+  explanation="SPIFFE is the standard, SPIRE the implementation. A workload is attested and handed a short-lived SVID (X.509 cert or JWT) that auto-rotates. Because identity comes from attestation, not a stored password, there's nothing durable to commit, sprawl, or steal."
+  revisit={{ to: "/docs/cloud-identity/nhi-workload-identity#spiffe-and-spire-a-verifiable-identity-for-every-workload", label: "SPIFFE/SPIRE" }}
+/>
+
+<Question
+  prompt="How does cloud workload identity federation let a CI/CD pipeline deploy without a stored key?"
+  options={[
+    { text: "It emails a new key to the pipeline each run" },
+    { text: "The pipeline presents a short-lived, signed OIDC token asserting what it is; the cloud trusts that issuer + claims and exchanges a valid token for SHORT-LIVED credentials — so the runner stores no standing secret, and there's nothing to harvest from a compromised runner" },
+    { text: "It disables authentication for CI jobs" },
+    { text: "It copies the cloud admin key into the CI secret store" }
+  ]}
+  correct={1}
+  explanation="Federation replaces a stored long-lived cloud key with a trust relationship: the CI provider issues a fresh, fast-expiring OIDC token per run; the cloud verifies it and returns short-lived credentials. No persistent secret ever exists in the pipeline."
+  revisit={{ to: "/docs/cloud-identity/nhi-workload-identity#cloud-workload-identity-federation-no-static-keys", label: "Workload identity federation" }}
+/>
+
+<Question
+  prompt="Why do signature-based detectors fail against 'living off the land' attacks?"
+  options={[
+    { text: "Signatures are too slow to keep up" },
+    { text: "Living-off-the-land attackers use the LEGITIMATE tools already on the system (shell, curl, admin utilities) rather than dropping malware, so there's no known-bad file to match — the fix is behavioral detection that flags the abnormal SEQUENCE regardless of which trusted tools performed it" },
+    { text: "Signatures only work on Windows" },
+    { text: "Signatures require an internet connection" }
+  ]}
+  correct={1}
+  explanation="Signatures match known-bad indicators; living-off-the-land deliberately avoids malware by abusing trusted, built-in tools, so nothing matches. Behavioral detection flags the abnormal sequence (a web server spawning a shell that reads secrets and connects out) instead."
+  revisit={{ to: "/docs/cloud-identity/cloud-runtime-security#why-signatures-fail-living-off-the-land", label: "Living off the land" }}
+/>
+
+<Question
+  prompt="What's the key difference between Falco and Cilium Tetragon, and what does eBPF give them?"
+  options={[
+    { text: "Falco is for Windows and Tetragon is for Linux" },
+    { text: "Both use eBPF to observe syscalls in-kernel (low overhead, hard to evade); Falco DETECTS and alerts, while Tetragon's in-kernel logic can also ENFORCE — killing the offending process or dropping the connection before the syscall completes" },
+    { text: "Falco is closed-source and Tetragon is free" },
+    { text: "They are identical and interchangeable" }
+  ]}
+  correct={1}
+  explanation="eBPF runs safe in-kernel programs that see the full process/file/network chain cheaply and unevadably. Falco is a detection/alerting engine; Tetragon can detect AND enforce in-kernel — stopping the bad action, not just recording it."
+  revisit={{ to: "/docs/cloud-identity/cloud-runtime-security#falco-vs-tetragon-detect-and-enforce", label: "Falco vs Tetragon" }}
+/>
+
+<Question
+  prompt="What is CNAPP, and where does its real value come from?"
+  options={[
+    { text: "A faster antivirus signature database" },
+    { text: "A Cloud-Native Application Protection Platform consolidating CSPM, CWPP, CIEM, and KSPM — its value is CORRELATION across those slices (vulnerable + internet-reachable + over-permissive + behaving abnormally) into one prioritized attack path, instead of disconnected dashboards" },
+    { text: "A tool that only scans Kubernetes YAML files" },
+    { text: "A replacement for IAM" }
+  ]}
+  correct={1}
+  explanation="CNAPP bundles the formerly-separate cloud-security tools. The point is correlating signals across posture, workload, identity, and runtime into an attacker's-eye prioritization — the same risk-based triage CSPM taught, now spanning all the slices."
+  revisit={{ to: "/docs/cloud-identity/cloud-runtime-security#cnapp-the-consolidation", label: "CNAPP consolidation" }}
+/>
+
+<Question
+  prompt="What is Kubernetes admission control, and why is it central to cluster security?"
+  options={[
+    { text: "A login screen for cluster administrators" },
+    { text: "The stage where every request to create/change a workload is inspected BEFORE acceptance, so a controller can reject or mutate it — the chokepoint where 'what is allowed to run' is enforced (no privileged pods, only signed images)" },
+    { text: "A tool that scales pods automatically" },
+    { text: "The component that stores container images" }
+  ]}
+  correct={1}
+  explanation="Admission control is the gate every create/change request passes before acceptance; a controller can deny or modify it, making it where cluster policy is actually enforced — the policy enforcement point for 'what may run here.'"
+  revisit={{ to: "/docs/cloud-identity/kubernetes-security#admission-control-the-gate-before-a-pod-runs", label: "Admission control" }}
+/>
+
+<Question
+  prompt="Why can't you secure pods with PodSecurityPolicy anymore, and what replaced it?"
+  options={[
+    { text: "PSP still works; nothing replaced it" },
+    { text: "PodSecurityPolicy was REMOVED in Kubernetes 1.25; the built-in replacement is Pod Security Admission (Privileged/Baseline/Restricted profiles per namespace), with Kyverno or OPA Gatekeeper as programmable policy engines for custom rules" },
+    { text: "PSP was renamed 'AdminPolicy' but is otherwise identical" },
+    { text: "PSP moved to the cloud provider's console" }
+  ]}
+  correct={1}
+  explanation="PSP was clunky and removed in 1.25, so 'just use a PSP' is outdated. Pod Security Admission is the built-in successor (three standard profiles, per namespace); Kyverno/OPA Gatekeeper handle custom policy-as-code at admission."
+  revisit={{ to: "/docs/cloud-identity/kubernetes-security#admission-control-the-gate-before-a-pod-runs", label: "PSP removed" }}
+/>
+
+<Question
+  prompt="A Kubernetes Secret is widely misunderstood. What's true, and what should you do?"
+  options={[
+    { text: "It's strongly encrypted by default; nothing more is needed" },
+    { text: "By default it's only base64-ENCODED (trivially reversible), not encrypted — so enable encryption-at-rest (ideally KMS-backed), restrict reads via least-privilege RBAC, and prefer an external secrets manager or short-lived workload identity" },
+    { text: "Secrets can't be read by anyone, ever" },
+    { text: "Secrets are stored only on the developer's laptop" }
+  ]}
+  correct={1}
+  explanation="Base64 is encoding, not encryption. Treat cluster secrets like secrets at scale: encrypt at rest (KMS), restrict via RBAC, use an external manager, or eliminate the stored secret with workload identity."
+  revisit={{ to: "/docs/cloud-identity/kubernetes-security#secrets-and-network-policies-dont-trust-the-inside", label: "Kubernetes secrets" }}
 />
 
 </Quiz>

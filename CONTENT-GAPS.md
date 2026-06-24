@@ -66,32 +66,59 @@ predated the shift from voluntary frameworks to **mandatory disclosure + vendor 
 `10-compliance/01-frameworks.md`, plus one quiz question. Durable thesis kept as the spine;
 all dates/regulation names in the dated box.
 
-### 5. (Bigger, capacity-permitting) NHI/SPIFFE + eBPF/CNAPP/K8s — DEFERRED
-**Gap:** Chapter 9 (Cloud & Identity) has no lesson on **non-human identities & secrets sprawl
-+ SPIFFE/SPIRE workload identity**, nor on **eBPF runtime security + CNAPP + Kubernetes
-security** (Falco/Tetragon, PSA/Kyverno admission control). These are real mid-2026 gaps.
-**Status:** **DEFERRED** as high-value follow-ups — each is a full multi-lesson build and the
-durable items (1–4) were prioritized and finished cleanly. See "Deferred" below.
+### 5. NHI/SPIFFE + eBPF/CNAPP/K8s — NOW DONE (3 NEW LESSONS, Ch.9)
+**Gap (was):** Chapter 9 (Cloud & Identity) had no lesson on **non-human identities & secrets
+sprawl + SPIFFE/SPIRE workload identity**, nor on **eBPF runtime security + CNAPP + Kubernetes
+security** (Falco/Tetragon, PSA/Kyverno admission control). These were real mid-2026 gaps.
+**Status:** **DONE** (follow-up pass). Built as **three** lessons (the runtime-detection vs.
+Kubernetes split read best as two distinct lessons):
+- `09-cloud-identity/015-nhi-workload-identity.md` — "Non-Human Identities & Workload Identity."
+  Machines vastly outnumber humans; static long-lived secrets are the dominant breach vector;
+  **secrets sprawl**; the fix = short-lived workload identity — **SPIFFE/SPIRE** (attestation →
+  SVIDs), **cloud workload identity federation** (OIDC, no static keys), secret-manager +
+  rotation fallback. Slots after IAM hardening (extends "identity is the perimeter" from human
+  to machine identity). Ratios/project-status/product names in a dated box.
+- `09-cloud-identity/025-runtime-security.md` — "Cloud-Native Runtime Security — eBPF & CNAPP."
+  Why **behavioral, in-kernel (eBPF)** detection beats signatures against **living-off-the-land**
+  (Volt Typhoon as a dated illustration); **Falco** (detect) vs. **Tetragon** (detect + enforce
+  in-kernel); **CNAPP** as the CSPM+CWPP+CIEM+KSPM consolidation. Slots after CSPM (the
+  prevent/detect pairing). Tool/Gartner/threat-actor specifics in a dated box.
+- `09-cloud-identity/027-kubernetes-security.md` — "Kubernetes Security — Admission Control &
+  Provenance." **Admission control** as the gate; **PSP removed in 1.25 → Pod Security
+  Admission**; **Kyverno / OPA Gatekeeper** policy-as-code; **image provenance/signing**;
+  Kubernetes Secrets are base64 (not encrypted); **network policies** = no flat in-cluster trust.
+  Version/tool specifics in a dated box.
+
+Each lesson has the full skeleton (plain-English on-ramp → terms-once → ≥1 traced worked example
+→ why it matters → pitfalls → ≥3-question checkpoint Quiz with teaching explanations → both-way
+cross-links → one `<h1>`). All wired into `sidebars.ts`, the Ch.9 index (covers list + numbered
+lesson list), and the lesson chain (IAM→NHI→CSPM→runtime→k8s→zero-trust); prev/next, cross-links,
+and three new bank questions per lesson added to the Ch.9 checkpoint (sampleSize 6→8). New terms
+added to the glossary (NHI, secrets sprawl, SPIFFE/SPIRE, SVID, attestation, workload identity
+federation, eBPF, syscall, signature-based/behavioral, Falco, Tetragon, runtime security, CWPP,
+CIEM, KSPM, admission control, PSA, PSP, Kyverno, OPA Gatekeeper, Kubernetes, pod, network policy,
+image provenance/signing). `npm run build` passes clean (exit 0, no broken-link/anchor warnings).
 
 ---
 
-## Deferred (high-value follow-ups, not built this pass)
+## Deferred — NOW COMPLETED
 
-1. **Ch.9 — Non-human identities (NHI) & secrets sprawl + SPIFFE/SPIRE workload identity.**
-   The "every workload needs a verifiable identity, and machine identities now vastly outnumber
-   human ones" lesson. Pairs with Key Management and IAM hardening.
-2. **Ch.9 — eBPF runtime security + CNAPP + Kubernetes security.** Runtime detection
-   (Falco/Tetragon), the CNAPP consolidation story, and admission control (Pod Security
-   Admission / Kyverno/OPA). Pairs with Detection and Cloud Identity.
+1. ~~**Ch.9 — Non-human identities (NHI) & secrets sprawl + SPIFFE/SPIRE workload identity.**~~
+   **DONE** → `09-cloud-identity/015-nhi-workload-identity.md` (see item 5 above).
+2. ~~**Ch.9 — eBPF runtime security + CNAPP + Kubernetes security.**~~ **DONE**, split into two:
+   `09-cloud-identity/025-runtime-security.md` (eBPF/Falco/Tetragon/CNAPP) and
+   `09-cloud-identity/027-kubernetes-security.md` (admission control / PSA / Kyverno/OPA /
+   image signing / network policies) (see item 5 above).
 
-Both are larger than the items completed here and should be scoped as their own pass.
+No outstanding deferred items remain from this currency pass.
 
 ---
 
 ## Build & conformance
 
-- `npm run build` passes (exit 0) before and after this pass.
-- `sidebars.ts` updated for the two new lessons (MCP, Post-Quantum).
+- `npm run build` passes (exit 0) before and after this pass — including the Ch.9 follow-up.
+- `sidebars.ts` updated for the new lessons (MCP, Post-Quantum, and the three Ch.9 lessons:
+  non-human identity, runtime security, Kubernetes security).
 - All new lessons follow `GUIDE-STANDARD.md`: plain-English on-ramp → terms-defined-once →
   worked example → why it matters → common pitfalls → ≥3-question quiz with teaching
   explanations → both-direction cross-links → exactly one `<h1>`.

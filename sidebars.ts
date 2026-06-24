@@ -159,7 +159,10 @@ const sidebars: SidebarsConfig = {
       link: {type: 'doc', id: 'cloud-identity/cloud-identity-overview'},
       items: [
         'cloud-identity/iam-hardening',
+        'cloud-identity/nhi-workload-identity',
         'cloud-identity/cspm',
+        'cloud-identity/cloud-runtime-security',
+        'cloud-identity/kubernetes-security',
         'cloud-identity/zero-trust-architecture',
         'cloud-identity/sso-federation',
         'cloud-identity/kms-secrets-at-scale',
