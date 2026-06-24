@@ -50,13 +50,19 @@ Each teaching chapter is a set of single-topic lessons following a fixed skeleto
 - **Aspiring offensive/defensive specialists** — Chapter 5 (offense), Chapters 6–7 (defense), and Chapter 8–9 (infra/cloud) go to job-ready depth.
 - **Working security engineers** — a sharp 2026 refresh and a single cross-linked reference, with the governance and AI chapters covering the newest surface.
 
-It pairs naturally with the companion *Modern Web Dev* and *Modern AI Engineer* guides — those teach you to build; this one teaches you to break and defend what's built.
+It pairs naturally with the companion *Modern Web Dev* and *Modern AI* guides — those teach you to build; this one teaches you to break and defend what's built.
 
 ---
 
 ## Running the site locally
 
 Built with [Docusaurus](https://docusaurus.io). You need Node.js 20+.
+
+> **Shared package:** this site consumes [`@throughline/guide-kit`](../packages/guide-kit) — a
+> local `file:` dependency providing the shared design tokens and the house-style Mermaid diagram
+> renderer. Keep the sibling `packages/guide-kit/` checked out alongside this folder and build it
+> once (`cd ../packages/guide-kit && npm install && npm run build`) **before** `npm install` here,
+> or dependency resolution / the Mermaid diagrams will fail.
 
 ```bash
 # Install dependencies (one-time)
@@ -101,8 +107,8 @@ modern-security-engineer-guide/
 ├── src/
 │   ├── pages/index.tsx               # Landing page
 │   ├── components/                   # Quiz, CodeChallenge, FeedbackWidget
-│   ├── theme/                        # MDX component registry + swizzled Mermaid
-│   └── css/                          # Global theme + landing styles
+│   ├── theme/                        # MDX registry + Mermaid shim (renderer → @throughline/guide-kit)
+│   └── css/                          # Landing styles; design tokens → @throughline/guide-kit
 ├── static/img/                       # Logos, favicon, social cards
 ├── docusaurus.config.ts              # Site configuration
 ├── sidebars.ts                       # Sidebar / chapter order (source of truth)
@@ -117,4 +123,6 @@ modern-security-engineer-guide/
 
 ## License
 
-Content licensed CC BY 4.0. Site code licensed MIT.
+**© 2026 To Yin Yu. All rights reserved.** This project is **source-available, not open-source**:
+you're welcome to read it and run it locally to learn, but it may not be copied, redistributed,
+modified, used commercially, or rebranded without permission. See [LICENSE](LICENSE) for full terms.

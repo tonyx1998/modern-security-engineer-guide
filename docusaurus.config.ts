@@ -74,7 +74,16 @@ const config: Config = {
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          // Shared design tokens + diagram styles come from the guide-kit
+          // (single source of truth); the site's own custom.css loads last so
+          // it can build on / override them.
+          customCss: [
+            require.resolve('@throughline/guide-kit/tokens.css'),
+            require.resolve('@throughline/guide-kit/styles/mermaid.css'),
+            require.resolve('@throughline/guide-kit/quiz.css'),
+            require.resolve('@throughline/guide-kit/code-challenge.css'),
+            require.resolve('./src/css/custom.css'),
+          ],
         },
       } satisfies Preset.Options,
     ],
