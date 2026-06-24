@@ -160,6 +160,6 @@ Both are *identity* failures, not network ones — which is exactly why "identit
 
 ## What's next
 
-→ Continue to [Cloud Security Posture Management (CSPM)](./cspm) — how you find the over-permissive roles, public buckets, and misconfigurations across an estate of hundreds or thousands of resources before an attacker does.
+→ Continue to [Non-Human Identities & Workload Identity](./nhi-workload-identity) — the machine identities that vastly outnumber human users, why their static keys are the dominant leaked-credential vector, and the short-lived workload identity that replaces them.
 
-→ **Going deeper:** the credential-theft path is [SSRF](/docs/appsec/ssrf); the leaked-key problem is [secrets scanning](/docs/secure-sdlc/secrets-iac-container-scanning); the human-identity governance is [SSO & federation](./sso-federation).
+→ **Going deeper:** the machine-identity sibling is [non-human identity](./nhi-workload-identity); the credential-theft path is [SSRF](/docs/appsec/ssrf); the leaked-key problem is [secrets scanning](/docs/secure-sdlc/secrets-iac-container-scanning); the human-identity governance is [SSO & federation](./sso-federation).

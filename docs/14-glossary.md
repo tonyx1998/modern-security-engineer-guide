@@ -22,6 +22,8 @@ description: Plain-English definitions for every key security term used across t
 
 **Admissibility** — Whether evidence can be used in legal proceedings; depends on proper handling and an intact *chain of custody*.
 
+**Admission control (Kubernetes)** — The stage where a request to create/change a workload is inspected and can be rejected or mutated before acceptance; the cluster's policy enforcement point. See *Pod Security Admission*, *Kyverno*.
+
 **AEAD (Authenticated Encryption with Associated Data)** — Encryption that also guarantees integrity/authenticity via an auth tag (AES-GCM, ChaCha20-Poly1305). The modern default for symmetric encryption.
 
 **AES (Advanced Encryption Standard)** — The global standard symmetric block cipher; use AES-256 in an authenticated mode.
@@ -51,6 +53,8 @@ description: Plain-English definitions for every key security term used across t
 **Attack tree** — A diagram with an attacker *goal* at the root and the ways to achieve it branching below.
 
 **Attestation / certification** — The formal output proving compliance (a SOC 2 report, an ISO 27001 certificate).
+
+**Attestation (workload)** — Proving *what* a workload is (its node, container, service account) before issuing it an identity — the machine equivalent of verifying ID before issuing a badge. See *SPIFFE/SPIRE*.
 
 **Audit** — An independent assessment verifying you actually follow your controls, producing a report or certification.
 
@@ -118,7 +122,11 @@ description: Plain-English definitions for every key security term used across t
 
 **Cloud metadata endpoint** — A link-local address (`169.254.169.254`) a cloud VM queries for its config, *including temporary IAM credentials*; a prime SSRF target.
 
-**CNAPP (Cloud-Native Application Protection Platform)** — A suite bundling CSPM with workload, identity, and other cloud-security capabilities.
+**CNAPP (Cloud-Native Application Protection Platform)** — A consolidated platform bundling cloud-security tools (CSPM + CWPP + CIEM + KSPM); its value is correlating signals across posture, workload, identity, and runtime into one prioritized attack path.
+
+**CIEM (Cloud Infrastructure Entitlement Management)** — Cloud-security tooling focused on identities and permissions: who/what has access and where it's over-broad. One of the slices a *CNAPP* consolidates.
+
+**CWPP (Cloud Workload Protection Platform)** — Cloud-security tooling that protects *running* workloads (vulnerability, threat, behavioral monitoring in production). One of the slices a *CNAPP* consolidates.
 
 **Collision** — Two different inputs producing the same hash; finding them breaks a hash (killed MD5 and SHA-1).
 
@@ -202,6 +210,8 @@ description: Plain-English definitions for every key security term used across t
 
 **East-west traffic** — Traffic *between* internal systems (lateral); what segmentation controls. See *north-south*.
 
+**eBPF (extended Berkeley Packet Filter)** — A Linux feature that safely runs small sandboxed programs inside the kernel, observing syscalls/file/network events with low overhead and no kernel module — the basis of modern runtime security. See *Falco*, *Tetragon*.
+
 **ECB (Electronic Codebook)** — A broken cipher mode where identical plaintext blocks encrypt identically, leaking patterns. Never use it.
 
 **ECC (Elliptic-Curve Cryptography)** — Public-key crypto with much smaller keys than RSA for equivalent strength.
@@ -229,6 +239,8 @@ description: Plain-English definitions for every key security term used across t
 ## F
 
 **Fail closed (fail-safe defaults)** — When something errors or is undefined, *deny*. The opposite (*fail open*) turns outages into breaches.
+
+**Falco** — An open-source (CNCF) *eBPF* runtime-security tool that *detects and alerts* on suspicious behavior via rules. See *Tetragon*.
 
 **False positive / false negative** — An alert that fired but was benign / a real attack that didn't fire. Tuning trades them off.
 
@@ -294,6 +306,10 @@ description: Plain-English definitions for every key security term used across t
 
 **IDS / IPS** — Intrusion Detection/Prevention System: monitors traffic for malicious patterns and (IPS) blocks them.
 
+**Image provenance** — Proof of where a container image came from and how it was built — that it's the artifact your pipeline produced, not a tampered or unknown one. Enforced via *image signing* at *admission control*.
+
+**Image signing** — Cryptographically signing a built container image so a cluster can verify its origin and integrity before running it.
+
 **Incident** — A confirmed or strongly suspected violation of security policy; a real breach or attack.
 
 **Incident commander** — The person coordinating an incident response (decisions, communication).
@@ -340,6 +356,12 @@ description: Plain-English definitions for every key security term used across t
 
 **KMS (Key Management Service)** — A managed service that generates, stores, and uses keys while keeping master keys inside the service.
 
+**KSPM (Kubernetes Security Posture Management)** — Posture management specialized to Kubernetes clusters (auditing config, drift, policy). One of the slices a *CNAPP* consolidates.
+
+**Kubernetes (K8s)** — The dominant container orchestrator: it schedules, restarts, scales, and networks containerized workloads across a cluster.
+
+**Kyverno** — A Kubernetes-native programmable policy engine used as an *admission controller* to enforce custom policy-as-code (image provenance, required labels, etc.). See *OPA Gatekeeper*.
+
 ## L
 
 **Lateral movement** — Pivoting from one compromised system to more valuable ones deeper in the network.
@@ -372,6 +394,10 @@ description: Plain-English definitions for every key security term used across t
 
 **NetFlow / flow data** — Summaries of network connections (who, when, how much) without full packet contents; lighter than PCAP.
 
+**Network policy (Kubernetes)** — A rule controlling which pods may talk to which, replacing default flat any-to-any pod connectivity; segmentation/zero-trust at the pod-network level.
+
+**Non-human identity (NHI) / machine identity** — An identity belonging to software (a service, container, function, CI job, script, or AI agent), not a person; now vastly outnumbers human identities. See *workload identity*, *secrets sprawl*.
+
 **Nonce / IV** — A Number used once: a unique value fed in with a key so identical plaintext encrypts differently. Never reuse with the same key.
 
 **Non-determinism (AI)** — The same input can produce different outputs, so attacks succeed probabilistically, not reliably.
@@ -382,7 +408,9 @@ description: Plain-English definitions for every key security term used across t
 
 ## O
 
-**OIDC / OAuth** — Standard protocols for authentication and authorization, used in SSO/federation.
+**OIDC / OAuth** — Standard protocols for authentication and authorization, used in SSO/federation and in *workload identity federation* (a signed short-lived token exchanged for cloud credentials, so no static key is stored).
+
+**OPA Gatekeeper** — Open Policy Agent's Kubernetes integration: a programmable *admission controller* enforcing custom policy-as-code. See *Kyverno*.
 
 **Order of volatility** — Collecting the most ephemeral evidence first (memory before disk before backups).
 
@@ -415,6 +443,12 @@ description: Plain-English definitions for every key security term used across t
 **PDP / PEP** — Policy Decision Point (evaluates each access request) and Policy Enforcement Point (enforces the decision); the zero-trust architecture core.
 
 **Penetration test (pentest)** — An authorized, scoped assessment that finds and demonstrates vulnerabilities, ending in a report.
+
+**Pod** — Kubernetes' smallest deployable unit: one or more containers that run together and share a network identity.
+
+**Pod Security Admission (PSA)** — Kubernetes' built-in successor to *PodSecurityPolicy*, applying the Pod Security Standards (Privileged / Baseline / Restricted) per namespace at *admission control*.
+
+**PodSecurityPolicy (PSP)** — The original built-in Kubernetes pod-restriction mechanism, **removed in Kubernetes 1.25**; replaced by *Pod Security Admission*. Out of date — don't use.
 
 **Persistence** — A durable way back into a compromised system that survives reboots, password changes, or the original hole being patched.
 
@@ -474,6 +508,8 @@ description: Plain-English definitions for every key security term used across t
 
 **Rules of Engagement (RoE)** — The agreed constraints of a test: scope, allowed methods, timing, handling, and emergency contacts.
 
+**Runtime security** — Detecting (and sometimes stopping) malicious activity in *running* workloads, as opposed to scanning configs or code beforehand. See *eBPF*, *Falco*, *Tetragon*.
+
 ## S
 
 **Salt** — A unique random value added per password before hashing, so identical passwords hash differently.
@@ -495,6 +531,8 @@ description: Plain-English definitions for every key security term used across t
 **Secret** — Any credential: key, API token, password, connection string.
 
 **Secret scanning** — Tooling that detects credentials accidentally committed to source control.
+
+**Secrets sprawl** — The same static secret copied across many places (repos, config, CI, environments), making it impossible to track, rotate, or revoke confidently.
 
 **Secure by default** — Arranging tools and conventions so the easy path is the secure path; preventing whole bug classes.
 
@@ -524,6 +562,8 @@ description: Plain-English definitions for every key security term used across t
 
 **Signal-to-noise** — A detection's ratio of real findings to false alarms; the measure of its value.
 
+**Signature-based detection** — Matching activity against a list of known-bad indicators (file hashes, exploit strings); blind to anything not on the list, which *living off the land* exploits. See *behavioral detection* (via *eBPF*).
+
 **Signing (artifact)** — Cryptographically signing a build output so consumers can verify it's authentic and unmodified.
 
 **SLSA** — "Supply-chain Levels for Software Artifacts": a graded framework for build-pipeline integrity.
@@ -537,6 +577,12 @@ description: Plain-English definitions for every key security term used across t
 **SOC 2** — A widely-used report demonstrating a service provider's controls against Trust Services Criteria.
 
 **Social engineering** — Manipulating humans into revealing information or access (phishing, pretexting); often the easiest path in.
+
+**SPIFFE (Secure Production Identity Framework for Everyone)** — An open, vendor-neutral standard for giving every workload a verifiable identity (a SPIFFE ID). Defines the *what*. See *SPIRE*, *SVID*.
+
+**SPIRE (the SPIFFE Runtime Environment)** — The open-source software implementing *SPIFFE*: it attests workloads and issues their short-lived *SVIDs*. The *how*.
+
+**SVID (SPIFFE Verifiable Identity Document)** — The short-lived, auto-rotated credential (an X.509 certificate or signed JWT) a workload presents to prove its *SPIFFE* identity.
 
 **SQL injection (SQLi)** — Injection into a database query; the classic and still one of the most damaging.
 
@@ -562,6 +608,8 @@ description: Plain-English definitions for every key security term used across t
 
 **Symmetric encryption** — Encryption using one shared secret key for both encryption and decryption. Fast; used for bulk data.
 
+**Syscall (system call)** — A process's request to the kernel to do something (open a file, start a process, send on the network); the ground truth of what software is actually doing, observed by *eBPF* runtime security.
+
 **System prompt** — The developer's instructions to an LLM, which a prompt injection tries to override or leak.
 
 ## T
@@ -575,6 +623,8 @@ description: Plain-English definitions for every key security term used across t
 **Telemetry** — The stream of data systems emit about what they're doing (logs, events, metrics); the raw material of detection.
 
 **Temporary credential** — A short-lived credential from assuming a role, expiring automatically, so a leak is far less damaging.
+
+**Tetragon** — Cilium's *eBPF* runtime-security tool that detects *and can enforce* in-kernel (e.g., kill a process or drop a connection before the syscall completes). See *Falco*.
 
 **Threat** — A potential cause of harm (an adversary or event); distinct from a *vulnerability* and *risk*.
 
@@ -626,7 +676,9 @@ description: Plain-English definitions for every key security term used across t
 
 **White box (testing)** — Testing with full knowledge (source, architecture, credentials); most thorough, least realistic.
 
-**Workload identity** — A verifiable identity assigned to a service/workload (not a human), used to authenticate service-to-service calls.
+**Workload identity** — A verifiable identity assigned to a service/workload (not a human), used to authenticate service-to-service calls. See *SPIFFE/SPIRE*, *non-human identity*.
+
+**Workload identity federation** — Letting a workload outside a cloud (e.g., a CI runner) authenticate using a short-lived *OIDC* token it already has, exchanged for short-lived cloud credentials — so no static key is ever stored.
 
 **Write blocker** — Hardware/software allowing a device to be read but not written, so imaging can't alter the original.
 

@@ -46,6 +46,16 @@ For the *customers*, no single control fully prevents this (that's the point of 
 The combined lesson: prevention failed upstream, so the defenders' leverage was *containment and detection* — [assume breach](/docs/offensive/post-exploitation) made painfully concrete.
 :::
 
+:::note[A second archetype: the malicious maintainer (XZ Utils)]
+SolarWinds is the *build-system compromise* archetype. A different and equally instructive one is the **malicious-maintainer** attack, exemplified by the **XZ Utils backdoor** (CVE-2024-3094, 2024). There, no one breached a build server — instead an attacker spent roughly two years *earning maintainer trust* on a tiny, near-universal compression library, then committed an obfuscated, build-time backdoor that hooked `sshd`. It was caught essentially by luck (an engineer chasing a fractional-second SSH slowdown) before it shipped widely.
+
+The contrast sharpens the lesson:
+- **SolarWinds:** trusted *pipeline* was compromised → defense is build-pipeline integrity ([SLSA](/docs/secure-sdlc/supply-chain), provenance).
+- **XZ Utils:** trusted *person* was the vector → defense is recognizing maintainer trust as attack surface — minimizing dependencies, preferring well-staffed projects, and [detection](/docs/detection), because source review can't catch a payload hidden in build artifacts by someone you trusted.
+
+Both make the same point from different angles: a dependency or update is only as secure as the [upstream](/docs/secure-sdlc/supply-chain) — *and whom that upstream trusts* — that produces it. (CVE/dates are [dated specifics](/docs/foundations/threat-vuln-risk); the patterns are durable.)
+:::
+
 ## The lessons that generalize
 
 - **Trusting a vendor's software is trusting their entire security.** Your [vendor risk](/docs/compliance/vendor-risk) includes their build pipeline. A dependency or update is only as secure as the upstream that produces it.

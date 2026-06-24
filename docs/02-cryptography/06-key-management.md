@@ -173,4 +173,4 @@ When a key *is* compromised, key management determines how bad it gets — this 
 
 You've now seen the full cryptographic toolkit — symmetric and asymmetric encryption, hashing and MACs, TLS, PKI, and the key management that holds it all together.
 
-→ Take the [Chapter 2 checkpoint](./cryptography-checkpoint) to lock it in, then continue to [Chapter 3: Web & Application Security](/docs/appsec), where this crypto meets the most-attacked surface on the internet.
+→ Continue to [Post-Quantum Crypto & Crypto-Agility](./post-quantum) — why a future quantum computer threatens today's [asymmetric crypto](./asymmetric-encryption), why the migration is already underway, and the durable design lesson that ties the chapter together. Then take the [Chapter 2 checkpoint](./cryptography-checkpoint) to lock it all in.

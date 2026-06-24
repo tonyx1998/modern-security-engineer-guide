@@ -159,4 +159,4 @@ The most valuable findings are usually *not* "I jailbroke the model" (expected �
 
 → Continue to [The Cardinal Rule: An LLM Is Not a Security Boundary](./cardinal-rule) — the principle every lesson in this chapter has pointed toward, and the design discipline that ties it all together.
 
-→ **Going deeper:** the offensive discipline this extends is [Chapter 5](/docs/offensive); the attacks you test for are [prompt injection](./prompt-injection) and [excessive agency](./excessive-agency); the architecture you validate is the [cardinal rule](./cardinal-rule).
+→ **Going deeper:** the offensive discipline this extends is [Chapter 5](/docs/offensive); the attacks you test for are [prompt injection](./prompt-injection), [excessive agency](./excessive-agency), and the [tool layer (MCP)](./mcp-security); the architecture you validate is the [cardinal rule](./cardinal-rule).

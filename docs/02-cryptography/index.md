@@ -22,6 +22,7 @@ Crypto feels like deep math, but the working knowledge a security engineer needs
 - **TLS 1.3** — the handshake that gives you a secure channel with a stranger, and certificate validation.
 - **PKI & certificates** — chains of trust, CAs, pinning.
 - **Key management** — generation, rotation, storage (KMS/HSM), and the lifecycle that makes or breaks the rest.
+- **Post-quantum crypto & crypto-agility** — why the quantum threat is already a today-problem (harvest-now-decrypt-later), the new standards and hybrid TLS, and building so crypto can be swapped.
 
 :::caution[The one rule that prevents most crypto disasters]
 **Don't roll your own crypto, and don't roll your own protocol.** Use standard libraries and constructions (e.g. libsodium, the platform's vetted primitives). Nearly every catastrophic crypto bug comes from a custom scheme, a reused nonce, ECB mode, or a missing authentication tag — not from AES being broken.
@@ -35,6 +36,7 @@ Crypto feels like deep math, but the working knowledge a security engineer needs
 4. **[TLS 1.3 →](/docs/cryptography/tls)** — the handshake that gives you a private, authenticated channel with a stranger.
 5. **[PKI & certificates →](/docs/cryptography/pki-certificates)** — chains of trust, Certificate Authorities, revocation, and pinning.
 6. **[Key management →](/docs/cryptography/key-management)** — generation, storage (KMS/HSM), rotation, and containing a leak — where crypto actually succeeds or fails.
+7. **[Post-quantum crypto & crypto-agility →](/docs/cryptography/post-quantum)** — the quantum threat as a today-problem (harvest-now-decrypt-later), the finalized standards and hybrid TLS, and crypto-agility as the durable design lesson.
 
 Finish with the **[Chapter 2 checkpoint →](/docs/cryptography/cryptography-checkpoint)** to certify the toolkit before Chapter 3.
 

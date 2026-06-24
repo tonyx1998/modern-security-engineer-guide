@@ -152,6 +152,6 @@ The mature posture goes a step further to **prevention**: rather than only *dete
 
 ## What's next
 
-→ Continue to [Zero-Trust Architecture](./zero-trust-architecture) — implementing "verify every request" in practice, with identity and device at the center of every access decision.
+→ Continue to [Cloud-Native Runtime Security](./cloud-runtime-security) — the other half of cloud defense: catching an attack *while it runs* with eBPF behavioral detection (Falco/Tetragon), and how CNAPP consolidates CSPM with that runtime protection and identity into one platform.
 
-→ **Going deeper:** the over-permissive IAM CSPM flags is [the last lesson](./iam-hardening); the IaC-scanning sibling that prevents misconfigs pre-deploy is [Secure SDLC](/docs/secure-sdlc/secrets-iac-container-scanning); prioritization mirrors [detection engineering](/docs/detection/detection-engineering).
+→ **Going deeper:** the over-permissive IAM CSPM flags is [IAM hardening](./iam-hardening); the machine-identity sprawl it also surfaces is [non-human identity](./nhi-workload-identity); the IaC-scanning sibling that prevents misconfigs pre-deploy is [Secure SDLC](/docs/secure-sdlc/secrets-iac-container-scanning); prioritization mirrors [detection engineering](/docs/detection/detection-engineering).

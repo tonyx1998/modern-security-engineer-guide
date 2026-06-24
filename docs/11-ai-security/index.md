@@ -19,6 +19,7 @@ AI features create genuinely new ways to be attacked. The headline one is **prom
 - **Prompt injection & jailbreaks** — direct and indirect, and why they can't be fully "prompted away."
 - **The OWASP LLM Top 10** — the standard catalog of LLM-app risks.
 - **Excessive agency & tool abuse** — the danger of giving models real-world actions.
+- **MCP & the tool layer** — the standard wiring that connects agents to tools, and why it's untrusted too.
 - **AI red-teaming** — adversarially testing AI systems (the AI-specific arm of [offensive security](/docs/offensive)).
 - **The cardinal rule** — the LLM proposes; deterministic code with real authz gates.
 
@@ -27,8 +28,9 @@ AI features create genuinely new ways to be attacked. The headline one is **prom
 1. **[Prompt Injection & Jailbreaks →](/docs/ai-security/prompt-injection)** — the signature AI vulnerability, why it's injection, and why it can't be prompted away.
 2. **[The OWASP LLM Top 10 →](/docs/ai-security/llm-top-10)** — the catalog of LLM-app risks; mostly familiar security around a new component.
 3. **[Excessive Agency & Tool Abuse →](/docs/ai-security/excessive-agency)** — when a manipulable model can take real-world actions, and how least privilege contains it.
-4. **[AI Red-Teaming →](/docs/ai-security/ai-red-teaming)** — adversarially testing AI, with non-determinism and an infinite input space.
-5. **[The Cardinal Rule →](/docs/ai-security/cardinal-rule)** — an LLM is not a security boundary: the model proposes, deterministic code disposes.
+4. **[Securing the Tool Layer: MCP →](/docs/ai-security/mcp-security)** — the standard that wires agents to tools, and its threats (tool poisoning, line-jumping, token pass-through, over-broad scopes).
+5. **[AI Red-Teaming →](/docs/ai-security/ai-red-teaming)** — adversarially testing AI, with non-determinism and an infinite input space.
+6. **[The Cardinal Rule →](/docs/ai-security/cardinal-rule)** — an LLM is not a security boundary: the model proposes, deterministic code disposes.
 
 Finish with the **[Chapter 11 checkpoint →](/docs/ai-security/ai-security-checkpoint)** to certify the toolkit before Chapter 12.
 

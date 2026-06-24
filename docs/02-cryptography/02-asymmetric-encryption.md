@@ -117,7 +117,7 @@ That's HTTPS in a sentence, and it's why the last lesson said symmetric does the
 - **Thinking a signature encrypts.** Signing proves origin and integrity; it does *not* hide the content. If you need both secrecy and proof, you sign *and* encrypt.
 - **Using RSA for bulk data.** Asymmetric is slow and size-limited; use it to set up a symmetric key, then let symmetric AEAD carry the payload (the hybrid pattern).
 - **Forgetting forward secrecy.** Long-lived keys mean a future key theft can decrypt *past* recorded traffic. Ephemeral key exchange (modern TLS) prevents this — prefer it.
-- **Ignoring the looming quantum question.** Large quantum computers would break RSA and ECC's trapdoors. It's not a 2026 emergency, but "post-quantum cryptography" is why this is a clearly dated topic — the migration is underway and standards now exist.
+- **Ignoring the looming quantum question.** Large quantum computers would break RSA and ECC's trapdoors. The migration is **underway now** — standards are finalized and hybrid post-quantum key exchange is already deployed by default in major browsers and clouds — because of "harvest now, decrypt later" (recorded traffic decrypted later). See [post-quantum crypto & crypto-agility](./post-quantum).
 :::
 
 ## Page checkpoint

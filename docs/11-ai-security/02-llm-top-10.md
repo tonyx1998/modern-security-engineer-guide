@@ -41,6 +41,24 @@ The list evolves between editions (treat specifics as **dated** — see the note
 - **RAG (Retrieval-Augmented Generation)** — feeding the model retrieved documents at query time; a common pattern that creates an [indirect-injection](./prompt-injection) and access-control surface.
 :::
 
+:::note[Dated box: the 2025-edition IDs (verify current)]
+The IDs and ordering **shift between editions** — internalize the categories above, not the numbers. As a *dated snapshot*, the 2025 edition of the OWASP Top 10 for LLM Applications reads:
+
+| ID | Risk | ID | Risk |
+|----|------|----|------|
+| LLM01 | Prompt Injection | LLM06 | Excessive Agency |
+| LLM02 | Sensitive Information Disclosure | **LLM07** | **System Prompt Leakage** |
+| LLM03 | Supply Chain | **LLM08** | **Vector & Embedding Weaknesses (RAG)** |
+| LLM04 | Data & Model Poisoning | LLM09 | Misinformation |
+| LLM05 | Improper Output Handling | LLM10 | Unbounded Consumption |
+
+Two entries are worth flagging because they're newer and easy to miss:
+- **LLM07 — System Prompt Leakage:** extracting the developer's hidden instructions (and any secrets foolishly placed there). The lesson: don't put secrets or security-critical rules in the system prompt — it can be leaked.
+- **LLM08 — Vector & Embedding Weaknesses:** the security holes specific to **RAG** (retrieval-augmented generation) — e.g., a poisoned or over-shared vector store letting one user retrieve another's data, or attacker-planted documents becoming [indirect-injection](./prompt-injection) payloads at retrieval time. As RAG became the default way to feed models private data, this earned its own entry.
+
+These specific IDs are a **dated** fact — confirm the current edition's list before citing numbers.
+:::
+
 ## The biggest "you already know this" risk: insecure output handling
 
 Worth a dedicated look because it's the most common *and* the most overlooked, precisely because it's *not* novel:
