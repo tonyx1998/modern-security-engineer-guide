@@ -8,6 +8,58 @@
  * builds on those tokens. Fonts are loaded via `stylesheets` in the config.
  */
 
+/* =================================================================
+   GUIDE IDENTITY — terminal-green reskin (security edition)
+
+   The shared guide-kit ships an electric-LIME accent. This guide is part
+   of the same family (same structure, components, type system) but takes a
+   distinct "console / terminal" identity: a terminal-GREEN accent
+   (base #34d399) plus a light monospace touch on eyebrows / labels.
+
+   We override the accent tokens + the full Infima primary ladder LOCALLY
+   (this file loads after @throughline/guide-kit/tokens.css), so the shared
+   kit is untouched and every other guide keeps its own color.
+
+   Derived ladders:
+     dark mode  → accent #34d399 (terminal green on near-black)
+     light mode → accent #1e7a59 (deeper emerald, AA-contrast on white)
+   ================================================================= */
+:root {
+  /* design-token accents (light mode — deeper green for contrast on white) */
+  --accent: #1e7a59;
+  --accent-dim: #1c7253;
+  --accent-soft: rgba(52, 211, 153, 0.12);
+  --accent-line: rgba(30, 122, 89, 0.3);
+  --on-accent: #f7f7f4;
+
+  /* Infima primary ladder (light) */
+  --ifm-color-primary: #1e7a59;
+  --ifm-color-primary-dark: #1b6e50;
+  --ifm-color-primary-darker: #1a684c;
+  --ifm-color-primary-darkest: #15553e;
+  --ifm-color-primary-light: #34876a;
+  --ifm-color-primary-lighter: #408e72;
+  --ifm-color-primary-lightest: #62a28b;
+}
+
+[data-theme='dark'] {
+  /* design-token accents (dark mode — terminal green) */
+  --accent: #34d399;
+  --accent-dim: #2cb382;
+  --accent-soft: rgba(52, 211, 153, 0.13);
+  --accent-line: rgba(52, 211, 153, 0.3);
+  --on-accent: #07120c;
+
+  /* Infima primary ladder (dark) */
+  --ifm-color-primary: #34d399;
+  --ifm-color-primary-dark: #2fbe8a;
+  --ifm-color-primary-darker: #2cb382;
+  --ifm-color-primary-darkest: #24946b;
+  --ifm-color-primary-light: #4cd8a5;
+  --ifm-color-primary-lighter: #59dbab;
+  --ifm-color-primary-lightest: #79e2bc;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -35,20 +87,23 @@ html {
   letter-spacing: -0.02em;
 }
 
-/* lime "AI" mark before the title (uses the loaded JetBrains Mono) */
+/* terminal-prompt mark before the title — "console" identity for the
+   security guide (replaces the family's default "AI" tile). Uses the
+   loaded JetBrains Mono so it reads as a shell prompt. */
 .navbar__brand::before {
-  content: 'AI';
+  content: '>_';
   display: grid;
   place-items: center;
-  width: 30px;
+  width: 32px;
   height: 30px;
   margin-right: 11px;
   border-radius: 8px;
   background: var(--accent);
   color: var(--on-accent);
   font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.04em;
   flex: none;
 }
 

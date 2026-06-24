@@ -30,6 +30,11 @@
 [data-theme='dark'] .maeg .kicker {
   color: var(--accent);
 }
+/* console touch: a terminal prompt glyph before the hero eyebrow only */
+.maeg .hero .kicker::before {
+  content: '$ ';
+  opacity: 0.65;
+}
 .maeg .display {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
@@ -282,7 +287,7 @@
   color: var(--accent-dim);
 }
 [data-theme='dark'] .maeg .hero-card .st {
-  color: #b6e873;
+  color: #6ee7b7;
 }
 /* animated token chips */
 .maeg .tok {
