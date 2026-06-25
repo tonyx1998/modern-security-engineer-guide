@@ -17,6 +17,7 @@ A detection fired — now what? Incident response is the calm, rehearsed procedu
 ## What this chapter covers
 
 - **The IR lifecycle** — prepare, detect, contain, eradicate, recover, learn.
+- **Tabletop exercises & BC/DR** — rehearsing the plan, and the backups/RTO/RPO that make recovery real.
 - **Chain of custody & evidence preservation** — handling artifacts so they remain trustworthy (and admissible).
 - **Forensic artifacts** — disk, memory, and network forensics; what each reveals.
 - **Timeline reconstruction** — assembling the "what happened, in what order" story.
@@ -25,10 +26,11 @@ A detection fired — now what? Incident response is the calm, rehearsed procedu
 ## The lessons in this chapter
 
 1. **[The IR Lifecycle →](/docs/incident-forensics/ir-lifecycle)** — prepare, identify, contain, eradicate, recover, learn — and why the bookends decide the outcome.
-2. **[Chain of Custody & Evidence Preservation →](/docs/incident-forensics/chain-of-custody)** — order of volatility, forensic imaging, write blockers, hashing, and the unbroken paper trail.
-3. **[Forensic Artifacts →](/docs/incident-forensics/forensic-artifacts)** — disk, memory, and network forensics, and what each reveals (and misses).
-4. **[Timeline Reconstruction →](/docs/incident-forensics/timeline-reconstruction)** — correlating artifacts into one ordered story, and the timestamp traps.
-5. **[Breach Determination & Notification →](/docs/incident-forensics/breach-determination)** — incident vs. breach, the evidence required, the regulatory clock, and why honesty wins.
+2. **[Tabletop Exercises & Business Continuity (BC/DR) →](/docs/incident-forensics/tabletop-bcdr)** — runbooks/playbooks, running a tabletop, and BIA/RTO/RPO/backups that make the prepare and recover phases real.
+3. **[Chain of Custody & Evidence Preservation →](/docs/incident-forensics/chain-of-custody)** — order of volatility, forensic imaging, write blockers, hashing, and the unbroken paper trail.
+4. **[Forensic Artifacts →](/docs/incident-forensics/forensic-artifacts)** — disk, memory, and network forensics, and what each reveals (and misses).
+5. **[Timeline Reconstruction →](/docs/incident-forensics/timeline-reconstruction)** — correlating artifacts into one ordered story, and the timestamp traps.
+6. **[Breach Determination & Notification →](/docs/incident-forensics/breach-determination)** — incident vs. breach, the evidence required, the regulatory clock, and why honesty wins.
 
 Finish with the **[Chapter 7 checkpoint →](/docs/incident-forensics/incident-forensics-checkpoint)** to certify the toolkit before Chapter 8.
 

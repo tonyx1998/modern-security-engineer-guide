@@ -1,7 +1,7 @@
 ---
 id: forensic-artifacts
 title: "Forensic Artifacts: Disk, Memory & Network"
-sidebar_position: 4
+sidebar_position: 5
 sidebar_label: Forensic artifacts
 description: What you collect and what each reveals — disk forensics (files, logs, deleted data), memory forensics (live state attackers hide in RAM), and network forensics (the traffic record).
 ---

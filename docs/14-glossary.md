@@ -68,9 +68,19 @@ description: Plain-English definitions for every key security term used across t
 
 ## B
 
+**3-2-1 backup** — A backup rule of thumb: keep **3** copies of data, on **2** different media/storage types, with **1** copy off-site — and today ideally **1** immutable/offline copy with **0** restore errors (3-2-1-1-0). Defends against accidents *and* ransomware that hunts backups.
+
+**Backup (immutable / offline)** — A backup copy that can't be altered or deleted for a retention window (immutable; e.g. object-lock/WORM) or is physically/logically disconnected (offline/air-gapped) — so an attacker who compromises production can't destroy it. The change that most reliably lets you restore instead of pay a ransom.
+
 **Baseline** — A model of "normal" behavior for a user/host/system, so anomalies can be flagged.
 
+**BC/DR (Business Continuity / Disaster Recovery)** — The plan and capabilities to keep the business running through a disruption (BC) and to restore IT systems and data afterward (DR). It is the muscle behind the IR lifecycle's *prepare* and *recover* phases.
+
+**BIA (Business Impact Analysis)** — The up-front study that ranks which business processes/systems matter most and how fast each must be restored; the foundation of BC/DR and the source of each system's *RTO*/*RPO*.
+
 **Beaconing** — The regular, periodic outbound "check-ins" malware makes to its *C2* server.
+
+**BEC (Business Email Compromise)** — Social engineering aimed at money/data: impersonating a trusted insider (often an executive or vendor) to get an employee to wire funds, change payment details, or send sensitive data. Often carries no malware/link — the request itself is the payload — so the defense is process (out-of-band verification), not a scanner.
 
 **Black box (testing)** — Testing with no inside knowledge, simulating an external attacker. See *grey/white box*.
 
@@ -194,6 +204,10 @@ description: Plain-English definitions for every key security term used across t
 
 **Disk forensics** — Analysis of stored data (files, logs, metadata, deleted remnants) from a storage image.
 
+**DKIM (DomainKeys Identified Mail)** — An email-authentication standard where the sending server cryptographically signs each message so receivers can verify it wasn't forged or altered. Paired with *SPF* and *DMARC*.
+
+**DMARC (Domain-based Message Authentication, Reporting & Conformance)** — The policy that ties *SPF* and *DKIM* together: it tells receivers what to do when a message fails (none / quarantine / **reject**) and reports back. A strict `p=reject` policy stops attackers spoofing your exact domain.
+
 **DMZ (demilitarized zone)** — A buffer network segment for internet-facing systems, isolated from internal resources.
 
 **DoS / DDoS** — Denial of Service / Distributed DoS: making a system unavailable, from one or many sources.
@@ -247,6 +261,8 @@ description: Plain-English definitions for every key security term used across t
 **Federation** — Extending identity trust across systems or organizations, so one domain's identity is accepted by another.
 
 **FedRAMP** — A rigorous US-government authorization for cloud providers.
+
+**FIDO2 / WebAuthn** — A standard for *phishing-resistant* authentication (security keys, *passkeys*) where the credential is cryptographically bound to the real site's domain, so a look-alike phishing page can't obtain a valid response. The strongest technical defense against credential phishing.
 
 **Fileless malware** — Malicious code that runs only in memory, leaving little or nothing on disk.
 
@@ -380,6 +396,8 @@ description: Plain-English definitions for every key security term used across t
 
 **MFA (Multi-Factor Authentication)** — Requiring two+ independent factors (know / have / are); the top control against credential attacks.
 
+**MFA fatigue (push-bombing)** — An attack where someone who already has the victim's password spams MFA approval prompts until the worn-down victim taps Approve. Defeated by *FIDO2*/passkeys and number-matching.
+
 **Microsegmentation** — Fine-grained segmentation down to individual workloads/services, often enforced by identity.
 
 **MITRE ATT&CK** — A public knowledge base of real-world attacker tactics and techniques, used to organize detections and assess coverage.
@@ -418,6 +436,8 @@ description: Plain-English definitions for every key security term used across t
 
 **Orphaned account** — An account still active after its owner has left or no longer needs it; a prime attack target.
 
+**Out-of-band verification** — Confirming a sensitive request (a wire, a banking-detail change, an unexpected MFA prompt) through a *separate, already-trusted* channel — e.g., calling a known number — never via contact info inside the suspect message. The core process defense against BEC.
+
 **OSCP** — A respected hands-on offensive certification with a grueling practical exam.
 
 **OSINT (Open-Source Intelligence)** — Intelligence assembled from publicly available sources; the basis of passive recon.
@@ -454,13 +474,17 @@ description: Plain-English definitions for every key security term used across t
 
 **PHI / PII** — Protected Health Information / Personally Identifiable Information; regulated data categories.
 
+**Phishing** — A broad social-engineering attack (usually email) impersonating a trusted party to trick recipients into clicking a malicious link, opening an attachment, or entering credentials. See *spear-phishing*, *whaling*, *smishing*, *vishing*.
+
 **PKI (Public Key Infrastructure)** — The system of CAs and certificates that binds public keys to identities (the trust behind HTTPS).
 
 **Plaintext** — Readable, unencrypted data. See *ciphertext*.
 
-**Playbook (runbook)** — A documented, repeatable procedure for handling a given alert/incident type.
+**Playbook** — A scenario-based response guide for a *type* of incident (e.g. "suspected ransomware"): the decisions, roles, communications, and the *runbooks* to invoke. Orchestrates runbooks; rehearsed via *tabletop exercises*. See *runbook*.
 
 **Post-exploitation** — What an attacker does after the first foothold: escalate, move laterally, persist, exfiltrate.
+
+**Pretexting** — Inventing and using a believable cover story (the *pretext*) — "I'm from IT and your account is locked" — to earn a target's trust before the manipulative ask. A core social-engineering technique.
 
 **Privilege escalation** — Gaining higher rights than granted: *vertical* (user → admin) or *horizontal* (one user → another).
 
@@ -477,6 +501,8 @@ description: Plain-English definitions for every key security term used across t
 **Purple team** — Red and blue teams working together so every attack immediately improves a detection.
 
 **Pyramid of Pain** — A model ranking indicators by how much pain it costs an attacker to change them (hashes/IPs easy → TTPs hard).
+
+**Quishing (QR-code phishing)** — Phishing where the malicious link is encoded as a QR code, dodging link scanners and landing the victim on a phishing page via their phone. See *phishing*.
 
 ## R
 
@@ -503,6 +529,12 @@ description: Plain-English definitions for every key security term used across t
 **Risk treatment** — The chosen response to a risk: mitigate, accept, transfer, or avoid.
 
 **Rotation** — Replacing a key/secret on a schedule or after suspected compromise.
+
+**RPO (Recovery Point Objective)** — The maximum amount of *recent data* you can afford to lose, measured in time (looks backward from a disaster to the last good copy). Set by how often you back up. Answers "*how much data?*" See *RTO*, *BIA*.
+
+**RTO (Recovery Time Objective)** — The maximum *time* a system can be down before unacceptable harm (looks forward from a disaster to "back online"). Set by how fast you can restore. Answers "*how long down?*" See *RPO*, *BIA*.
+
+**Runbook** — A precise, step-by-step procedure for one *routine* operational task (e.g. "fail the database over to the replica"), detailed enough to follow under stress. A *playbook* invokes runbooks for the mechanical steps. See *playbook*.
 
 **RSA** — A widely-used public-key algorithm based on the difficulty of factoring large numbers.
 
@@ -576,7 +608,13 @@ description: Plain-English definitions for every key security term used across t
 
 **SOC 2** — A widely-used report demonstrating a service provider's controls against Trust Services Criteria.
 
-**Social engineering** — Manipulating humans into revealing information or access (phishing, pretexting); often the easiest path in.
+**Smishing** — Phishing by SMS text message; small screens hide the real URL and texts feel urgent/personal. See *phishing*, *vishing*.
+
+**Social engineering** — Manipulating a *person* (rather than exploiting a technical flaw) into revealing information, granting access, or taking a harmful action; the umbrella term for phishing, pretexting, BEC, vishing, etc., and the #1 initial-access vector.
+
+**Spear-phishing** — A *targeted* phish crafted for a specific person/group using real details to be far more believable; the workhorse of real intrusions. See *phishing*, *whaling*.
+
+**SPF (Sender Policy Framework)** — An email-authentication standard where a domain publishes which servers may send mail for it, so receivers can reject spoofed senders. Paired with *DKIM* and *DMARC*.
 
 **SPIFFE (Secure Production Identity Framework for Everyone)** — An open, vendor-neutral standard for giving every workload a verifiable identity (a SPIFFE ID). Defines the *what*. See *SPIRE*, *SVID*.
 
@@ -664,6 +702,8 @@ description: Plain-English definitions for every key security term used across t
 
 **Vendor (third-party) risk** — The risk that a supplier, SaaS, or partner you depend on is the source of an incident affecting you.
 
+**Vishing (voice phishing)** — Social engineering by phone call (e.g., impersonating IT or a bank's fraud team), increasingly powered by AI voice cloning. See *phishing*, *smishing*.
+
 **VPN (Virtual Private Network)** — An encrypted tunnel connecting a client or site to a private network over the internet.
 
 **Volumetric attack** — A DDoS that overwhelms bandwidth/network capacity with raw traffic volume.
@@ -673,6 +713,8 @@ description: Plain-English definitions for every key security term used across t
 ## W
 
 **WAF (Web Application Firewall)** — A filter that inspects HTTP request *contents* to block web attacks; a layer, not a fix.
+
+**Whaling** — Spear-phishing aimed at a "big fish" (executive, finance lead, admin) whose access or authority makes one success especially valuable. See *spear-phishing*.
 
 **White box (testing)** — Testing with full knowledge (source, architecture, credentials); most thorough, least realistic.
 

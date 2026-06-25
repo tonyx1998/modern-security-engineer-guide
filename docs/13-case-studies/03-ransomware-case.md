@@ -135,4 +135,4 @@ It's the strongest possible counter to "security is just about protecting data" 
 
 → Continue to [The Patterns That Generalize](./generalizable-lessons) — stepping back from the three cases to the small set of durable lessons they *all* teach, and how they tie the whole guide together.
 
-→ **Going deeper:** MFA and credentials are [Chapter 3](/docs/appsec/broken-authentication); segmentation is [Chapter 8](/docs/network-security/segmentation); tested IR and backups are [Chapter 7](/docs/incident-forensics/ir-lifecycle); availability is [Foundations](/docs/foundations/cia-triad).
+→ **Going deeper:** MFA and credentials are [Chapter 3](/docs/appsec/broken-authentication); segmentation is [Chapter 8](/docs/network-security/segmentation); tested IR and backups are [Chapter 7](/docs/incident-forensics/ir-lifecycle), and the *immutable/offline backups and tested recovery* that defeat ransomware's leverage are covered in [Tabletop Exercises & BC/DR](/docs/incident-forensics/tabletop-bcdr); availability is [Foundations](/docs/foundations/cia-triad).

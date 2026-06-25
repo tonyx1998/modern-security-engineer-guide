@@ -1,7 +1,7 @@
 ---
 id: breach-determination
 title: Breach Determination & Notification
-sidebar_position: 6
+sidebar_position: 7
 sidebar_label: Breach determination
 description: The high-stakes call of whether an incident is a reportable breach — security incident vs. breach, what the evidence must show, the regulatory notification clock, and why honesty and preparation beat cover-ups.
 ---

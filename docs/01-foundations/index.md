@@ -21,6 +21,7 @@ Most engineers learn to make systems *work*. Security engineers also learn to as
 - **The attacker's mindset** — thinking in misuse cases, abuse of trust, and the path of least resistance.
 - **Trust boundaries** — where data crosses from less-trusted to more-trusted, and why those crossings are where bugs become breaches.
 - **Defense in depth & least privilege** — the two principles that show up in every later chapter.
+- **Social engineering & phishing** — why the human is the #1 initial-access vector, and the technical/human/process defenses against it.
 
 ## How it connects
 
@@ -33,6 +34,7 @@ These foundations are assumed by every chapter that follows — [cryptography](/
 3. **[The attacker's mindset →](/docs/foundations/attacker-mindset)** — the habit of thinking in misuse cases, abusing trust, and the path of least resistance.
 4. **[Trust boundaries →](/docs/foundations/trust-boundaries)** — where data crosses from less-trusted to more-trusted, and why that's where bugs become breaches ("never trust the client").
 5. **[Defense in depth & least privilege →](/docs/foundations/defense-in-depth)** — layer your defenses so no single failure is fatal, and grant the minimum access so a compromise stays contained.
+6. **[Social engineering & phishing →](/docs/foundations/social-engineering)** — why humans are the easiest attack surface, the phishing/BEC/MFA-fatigue playbook, and the technical, human, and process defenses that stop them.
 
 Finish with the **[Chapter 1 checkpoint →](/docs/foundations/foundations-checkpoint)** to certify the foundations before Chapter 2.
 

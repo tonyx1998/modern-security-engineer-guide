@@ -1,7 +1,7 @@
 ---
 id: incident-forensics-checkpoint
 title: Chapter 7 Checkpoint
-sidebar_position: 7
+sidebar_position: 8
 sidebar_label: ✅ Chapter checkpoint
 description: Prove the incident-response and forensics toolkit stuck — a mixed quiz across the IR lifecycle, chain of custody, forensic artifacts, timeline reconstruction, and breach determination.
 ---
@@ -17,6 +17,7 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
 ## What you should be able to do now
 
 - **Run the [IR lifecycle](./ir-lifecycle)** — six phases, with preparation and lessons-learned as the decisive bookends.
+- **Rehearse and recover with [tabletops & BC/DR](./tabletop-bcdr)** — runbooks/playbooks, running a tabletop, and BIA/RTO/RPO/immutable backups.
 - **Preserve evidence** with [chain of custody](./chain-of-custody) — order of volatility, imaging, write blockers, and hashing.
 - **Collect the right [forensic artifacts](./forensic-artifacts)** — disk, memory, and network, and what each reveals and misses.
 - **Reconstruct a [timeline](./timeline-reconstruction)** — correlate across sources and dodge the timestamp traps.
@@ -24,7 +25,7 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
 
 ## The checkpoint
 
-<Quiz id="incident-forensics-checkpoint" title="Chapter 7: Incident Response & Forensics" sampleSize={6} passingScore={0.67}>
+<Quiz id="incident-forensics-checkpoint" title="Chapter 7: Incident Response & Forensics" sampleSize={7} passingScore={0.67}>
 
 <Question
   prompt="What are the six phases of the incident response lifecycle?"
@@ -63,6 +64,32 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
   correct={1}
   explanation="Eradication must remove every foothold, backdoor, and compromised credential at once. Missing some leaves the attacker present and aware, so they often return more aggressively. Scope before you eradicate."
   revisit={{ to: "/docs/incident-forensics/ir-lifecycle#eradicate-fully-or-you-havent-eradicated", label: "Eradicate fully" }}
+/>
+
+<Question
+  prompt="A system's last backup was at 12:00, it failed at 14:00, and the restore finished at 20:00. What are its RPO (data lost) and RTO (downtime)?"
+  options={[
+    { text: "RPO = 6 hours; RTO = 2 hours" },
+    { text: "RPO = 2 hours (12:00→14:00, data created since the last backup is lost); RTO = 6 hours (14:00→20:00, time down until restored)" },
+    { text: "RPO = 8 hours; RTO = 8 hours" },
+    { text: "RPO and RTO both equal 4 hours" }
+  ]}
+  correct={1}
+  explanation="RPO looks backward to the last good copy (12:00→14:00 = 2h of lost data, set by backup frequency); RTO looks forward to recovery (14:00→20:00 = 6h of downtime, set by restore speed). They measure different harms and are tuned with different investments."
+  revisit={{ to: "/docs/incident-forensics/tabletop-bcdr#rto-and-rpo-defined-plainly", label: "RTO and RPO" }}
+/>
+
+<Question
+  prompt="Why is an immutable or offline backup copy now essential beyond the classic 3-2-1 rule, and what does a good tabletop exercise produce?"
+  options={[
+    { text: "Immutable backups are just cheaper storage; a good tabletop produces a signed completion certificate" },
+    { text: "3-2-1 defends against accidents, but ransomware hunts and encrypts backups first — an immutable/offline copy on separate credentials survives a full production compromise so you can restore instead of pay; and a good tabletop FINDS gaps that become owned, dated fixes" },
+    { text: "Immutable backups restore faster; a good tabletop is one the team aces with no findings" },
+    { text: "Neither matters once you have MFA" }
+  ]}
+  correct={1}
+  explanation="A backup reachable with the credentials the attacker already stole is just another target; immutable/offline copies defeat ransomware's leverage. And a tabletop where the team 'aces it' usually means the scenario was too soft — the goal is to surface gaps and convert them into tracked fixes."
+  revisit={{ to: "/docs/incident-forensics/tabletop-bcdr#backup-strategy-3-2-1-and-why-immutability-now-matters", label: "Immutable backups & tabletops" }}
 />
 
 <Question
@@ -186,6 +213,6 @@ The quiz samples from a larger bank each attempt. The chapter's through-line: **
 
 ## Chapter 7 complete
 
-You now understand the worst day as a *disciplined process*: a rehearsed [lifecycle](./ir-lifecycle) that stays calm, [evidence handling](./chain-of-custody) that stays trustworthy, [artifacts](./forensic-artifacts) from three sources, a [timeline](./timeline-reconstruction) that reconstructs the truth, and a [breach determination](./breach-determination) made on evidence and honesty against a ticking clock. The goal here isn't uptime — it's *truth and evidence*.
+You now understand the worst day as a *disciplined process*: a rehearsed [lifecycle](./ir-lifecycle) that stays calm, [tabletops and BC/DR](./tabletop-bcdr) that make the prepare and recover phases real, [evidence handling](./chain-of-custody) that stays trustworthy, [artifacts](./forensic-artifacts) from three sources, a [timeline](./timeline-reconstruction) that reconstructs the truth, and a [breach determination](./breach-determination) made on evidence and honesty against a ticking clock. The goal here isn't uptime — it's *truth and evidence*.
 
 → On to [Chapter 8: Network Security](/docs/network-security) — back to building defenses, starting with the network layer that so many of these attacks traverse, and the segmentation that limits how far an intruder can go.

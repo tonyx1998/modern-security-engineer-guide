@@ -1,7 +1,7 @@
 ---
 id: chain-of-custody
 title: Chain of Custody & Evidence Preservation
-sidebar_position: 3
+sidebar_position: 4
 sidebar_label: Chain of custody
 description: Handling digital evidence so it stays trustworthy and legally admissible — order of volatility, forensic imaging, write blockers, hashing for integrity, and an unbroken chain of custody.
 ---

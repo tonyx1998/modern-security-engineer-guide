@@ -30,7 +30,7 @@ The industry-standard lifecycle (from NIST and the SANS **PICERL** model) is a l
 2. **Identify (Detect & Analyze)** — confirm an incident is real (vs. a false positive), determine its scope and severity, and declare it. This is where [detection](/docs/detection) hands off.
 3. **Contain** — stop the bleeding: limit the attacker's spread and the damage, *without* tipping them off prematurely or destroying evidence. Often short-term (isolate) then long-term (rebuild trust).
 4. **Eradicate** — remove the attacker's presence entirely: malware, backdoors, [persistence](/docs/offensive/post-exploitation), and compromised credentials. *All* of it, or they're still in.
-5. **Recover** — restore systems to normal operation safely, validate they're clean, and monitor closely for the attacker's return.
+5. **Recover** — restore systems to normal operation safely, validate they're clean, and monitor closely for the attacker's return. This is where your [BC/DR plan and tested backups](./tabletop-bcdr) actually get executed.
 6. **Lessons Learned (Post-Incident)** — a blameless review: what happened, what worked, what didn't, and what changes prevent a repeat. Feeds back into *Prepare*.
 
 :::note[Terms, defined once]
@@ -50,7 +50,7 @@ You cannot write your incident-response plan *during* the incident — by then i
 - **A plan and defined roles** mean people act instead of arguing about who's in charge. An **incident commander** coordinates; responders investigate; someone owns communications. Confusion is the enemy of a fast response.
 - **Tools and access ready in advance** — forensic tools, a way to isolate systems, out-of-band communication (because the attacker may be reading your email/Slack).
 - **The right [logs already being collected](/docs/detection/logging-telemetry)** — you can't investigate telemetry you didn't capture. Preparation is when that's decided.
-- **Rehearsal via tabletop exercises** — walking through "ransomware just hit, what do we do?" *before* it happens surfaces the gaps (no one knows who can authorize taking production offline; the backups were never tested) while they're cheap to fix.
+- **Rehearsal via [tabletop exercises](./tabletop-bcdr)** — walking through "ransomware just hit, what do we do?" *before* it happens surfaces the gaps (no one knows who can authorize taking production offline; the backups were never tested) while they're cheap to fix. The [next lesson](./tabletop-bcdr) covers how to actually run one.
 
 Organizations that prepare handle breaches as managed events; those that don't experience them as catastrophes. The difference is almost entirely made *before* the incident.
 
@@ -175,6 +175,6 @@ This is the same [shift-left](/docs/secure-sdlc/shift-left) and continuous-impro
 
 ## What's next
 
-→ Continue to [Chain of Custody & Evidence Preservation](./chain-of-custody) — the discipline that keeps the evidence you gather during IR trustworthy and legally admissible.
+→ Continue to [Tabletop Exercises & Business Continuity (BC/DR)](./tabletop-bcdr) — the preparedness-and-recovery complement to this lifecycle: how to rehearse the plan and how to actually restore the business.
 
-→ **Going deeper:** the detection that triggers *identify* is [Chapter 6](/docs/detection); the forensic investigation that powers *identify* and *eradicate* is the [next lessons](./forensic-artifacts); the lessons-learned loop ties back to [Secure SDLC](/docs/secure-sdlc).
+→ **Going deeper:** the detection that triggers *identify* is [Chapter 6](/docs/detection); the forensic investigation that powers *identify* and *eradicate* is [forensic artifacts](./forensic-artifacts); the *prepare* and *recover* bookends are made real by [tabletops & BC/DR](./tabletop-bcdr); the lessons-learned loop ties back to [Secure SDLC](/docs/secure-sdlc).

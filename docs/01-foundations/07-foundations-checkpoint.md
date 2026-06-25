@@ -1,7 +1,7 @@
 ---
 id: foundations-checkpoint
 title: Chapter 1 Checkpoint
-sidebar_position: 7
+sidebar_position: 8
 sidebar_label: ✅ Chapter checkpoint
 description: Prove the foundations stuck — a mixed quiz across the CIA triad, threat/vulnerability/risk, the attacker's mindset, trust boundaries, and defense in depth & least privilege.
 ---

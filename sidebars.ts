@@ -27,6 +27,7 @@ const sidebars: SidebarsConfig = {
         'foundations/attacker-mindset',
         'foundations/trust-boundaries',
         'foundations/defense-in-depth',
+        'foundations/social-engineering',
         'foundations/foundations-checkpoint',
       ],
     },
@@ -126,6 +127,7 @@ const sidebars: SidebarsConfig = {
       link: {type: 'doc', id: 'incident-forensics/incident-forensics-overview'},
       items: [
         'incident-forensics/ir-lifecycle',
+        'incident-forensics/tabletop-bcdr',
         'incident-forensics/chain-of-custody',
         'incident-forensics/forensic-artifacts',
         'incident-forensics/timeline-reconstruction',
@@ -233,6 +235,7 @@ const sidebars: SidebarsConfig = {
         'case-studies/case-studies-checkpoint',
       ],
     },
+    'capstone',
     'glossary',
   ],
 };

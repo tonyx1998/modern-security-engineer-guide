@@ -1,7 +1,7 @@
 ---
 id: timeline-reconstruction
 title: Timeline Reconstruction
-sidebar_position: 5
+sidebar_position: 6
 sidebar_label: Timeline reconstruction
 description: Assembling scattered artifacts into one ordered story — correlating timestamps across sources, finding patient zero and dwell time, the timestamp pitfalls (time zones, clock skew, timestomping), and why the timeline drives every other decision.
 ---
