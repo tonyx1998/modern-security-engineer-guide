@@ -11,8 +11,8 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://tonyx1998.github.io',
-  baseUrl: '/modern-security-engineer-guide/',
+  url: 'https://modernsecurityengineer.com',
+  baseUrl: '/',
 
   organizationName: 'tonyx1998',
   projectName: 'modern-security-engineer-guide',

@@ -4,7 +4,7 @@
 
 A comprehensive, first-principles 2026 guide to how security is actually done — offensive *and* defensive. **14 chapters in 7 parts**, written so a complete beginner can read it front to back and finish job-ready, while still being a useful reference for working engineers. It teaches the attacker's mindset and the defender's craft from the ground up, and ends where you can *do the job*. *Last reviewed: June 2026.*
 
-> **Live site:** https://tonyx1998.github.io/modern-security-engineer-guide/ *(deploy with `npm run deploy` / GitHub Pages)*
+> **Live site:** https://modernsecurityengineer.com/ *(deploy with `npm run deploy` / GitHub Pages)*
 
 > ⚠️ **Ethics & authorization.** Offensive techniques in this guide are for **authorized, defensive purposes only** — pentesting under a signed engagement, CTFs, your own lab, or sanctioned bug-bounty scope. Using them against systems you don't own or aren't permitted to test is illegal. Every offensive chapter restates this in context.
 
