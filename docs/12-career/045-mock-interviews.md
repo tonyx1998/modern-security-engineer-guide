@@ -85,4 +85,4 @@ When a code-review round shows you a SQL-injectable query, the weak answer escap
 
 ## What's next
 
-→ Continue to the [Career Checkpoint](./career-checkpoint), or run a round now at [SoloMock](https://solomock.com) (Security track). For the general coding loop that often appears in security-engineer interviews too, the [SWE Interview Guide](https://swe-interview-guide.vercel.app) shares the same problem set.
+→ Continue to the [Career Checkpoint](./career-checkpoint), or run a round now at [SoloMock](https://solomock.com) (Security track). For the general coding loop that often appears in security-engineer interviews too, the [SWE Interview Guide](https://sweinterviewguide.com) shares the same problem set.
