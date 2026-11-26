@@ -85,6 +85,11 @@ const config: Config = {
             require.resolve('./src/css/custom.css'),
           ],
         },
+        sitemap: {
+          // The search page is a UI shell with no content of its own; keep it
+          // out of the sitemap so it isn't submitted for indexing.
+          ignorePatterns: ['/search'],
+        },
       } satisfies Preset.Options,
     ],
   ],
